@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+    <svg version="1.1"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink" style="transform:scaleX(-1) rotate(90deg);" viewBox="0 0 100 100">
+        <path id="circ" stroke="transparent" fill="transparent" d="M 25 0 m -25, 0 a 25,25 0 1,0 50,0 a 25,25 0 1,0 -50,0"></path>
+        <ellipse fill="#eee" cx="25" cy="50" rx="10" ry="10">
+            <animateMotion dur="2s" repeatCount="indefinite" calcMode="linear" keyPoints="0; 0.5;0.8; 1" keyTimes=" 0; 0.3;0.8;1" >
+                <mpath href="#circ" />
+            </animateMotion>
+        </ellipse>
+        <ellipse fill="#ccc" cx="25" cy="50" rx="10" ry="10">
+            <animateMotion begin="0.3s" dur="2s" repeatCount="indefinite" calcMode="linear" keyPoints="0; 0.5;0.8; 1" keyTimes=" 0; 0.3;0.8;1">
+                <mpath href="#circ" />
+            </animateMotion>
+        </ellipse>
+        <ellipse fill="#aaa" cx="25" cy="50" rx="10" ry="10">
+            <animateMotion begin="0.6s" dur="2s" repeatCount="indefinite" calcMode="linear" keyPoints="0; 0.5;0.8; 1" keyTimes=" 0; 0.3;0.8;1">
+                <mpath href="#circ" />
+            </animateMotion>
+        </ellipse><ellipse fill="#888" cx="25" cy="50" rx="10" ry="10">
+            <animateMotion begin="0.9s" dur="2s" repeatCount="indefinite" calcMode="linear" keyPoints="0; 0.5;0.8; 1" keyTimes=" 0; 0.3;0.8;1">
+                <mpath href="#circ" />
+            </animateMotion>
+        </ellipse><ellipse fill="#666" cx="25" cy="50" rx="10" ry="10">
+            <animateMotion begin="1.2s" dur="2s" repeatCount="indefinite" calcMode="linear" keyPoints="0; 0.5;0.8; 1" keyTimes=" 0; 0.3;0.8;1">
+                <mpath href="#circ" />
+            </animateMotion>
+        </ellipse>
+    </svg>

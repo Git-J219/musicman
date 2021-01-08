@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Musicman</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self';" />
+    <link rel="stylesheet" href="codicon/codicon.css">
+    <link rel="stylesheet" href="roboto/roboto.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div id="app_title">
+        <!--Loads Current File onclick -- communication between preload.js and inter.js-->
+        <div id="lcfp" style="display:none;">SOnO&#xE1;O O&#xBB;O&#xFC;O OLOO &#x152;O OnOoOOJ</div>
+        <div class="hide-mos" id="app_close" aria-label="Schließen" tabindex="-1" role="button">
+            <div class="codicon codicon-chrome-close"></div>
+        </div>
+        <div class="hide-mos" id="app_max" aria-label="Maximieren" tabindex="-1" role="button">
+            <div id="app_max_unmaximize" style="display:none;" class="codicon codicon-chrome-restore"></div>
+            <div id="app_max_maximize" class="codicon codicon-chrome-maximize"></div>
+        </div>
+        <div class="hide-mos" id="app_min" aria-label="Minimieren" tabindex="-1" role="button">
+            <div class="codicon codicon-chrome-minimize"></div>
+        </div>
+        <div class="dropdown hide-mos">
+            <button class="dropbtn">Datei<div class="codicon codicon-triangle-down"></div></button>
+            <div class="dropdown-content">
+                <a id="menuOpen" href="#">Öffnen</a>
+            </div>
+        </div>
+        <span id="title">Musicman</span>
+        <img style="display:none;" width="56" src="loading/loading.svg" id="load">
+    </div>
+
+
+    <table class="a">
+        <tbody>
+            <tr>
+                <td>
+                    <button id="play">
+    <svg id="pausing" viewBox="0 0 24 24" width="24" height="24">
+        <path d="M8 5v14l11-7z" fill="currentcolor" />
+        <path d="M0 0h24v24H0z" fill="none" />
+    </svg>
+    <svg style="display:none;" id="playing" viewBox="0 0 24 24" width="24" height="24">
+        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentcolor" />
+        <path d="M0 0h24v24H0z" fill="none" />
+    </svg>
+</button>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                    <button id="reset">
+                        <svg viewBox="0 0 100 100" width="24" height="24">
+                            <ellipse cx="50" cy="50" rx="35" ry="35" fill="transparent" stroke="#fff" stroke-width="10">
+                            </ellipse>
+                            <path d="M 0 0 100 100" stroke="currentcolor" stroke-width="50"></path>
+                            <polygon points="50,0 35,20 57,32" fill="#fff"></polygon>
+                            <polygon points="50,100 65,80 43,68" fill="#fff"></polygon>
+                        </svg>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <div class="label">
+                        <input type="checkbox" id="loop" name="loop">
+                        <label for="loop">
+                            Lied wiederholen
+                        </label>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <div class="label">
+                        <input type="checkbox" id="comp" name="comp" checked>
+                        <label for="comp">
+                            Kompressor aktivieren
+                        </label>
+                        <div style="width:10%;"></div><button id="modal-btn_com">Mehr Einstellungen...</button>
+                    </div>
+                </td>
+                <td>
+                </td>
+                <td>
+                    <button id="resetCom">
+                        <svg viewBox="0 0 100 100" width="24" height="24">
+                            <ellipse cx="50" cy="50" rx="35" ry="35" fill="transparent" stroke="#fff" stroke-width="10">
+                            </ellipse>
+                            <path d="M 0 0 100 100" stroke="currentcolor" stroke-width="50"></path>
+                            <polygon points="50,0 35,20 57,32" fill="#fff"></polygon>
+                            <polygon points="50,100 65,80 43,68" fill="#fff"></polygon>
+                        </svg>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span id="panWrap">Stereoverschiebung:</span>
+                </td>
+                <td>
+                    <input type="range" id="pan" min="-1" max="1" value="0" step="0.01">
+                </td>
+                <td>
+                    <span style="display:none;" id="panTrue"><span id="panAmount"></span>% nach <span id="panDir"></span></span><span id="panFalse">0%</span> verschoben
+                </td>
+                <td>
+                    <button id="resetPan">
+                        <svg viewBox="0 0 100 100" width="24" height="24">
+                            <ellipse cx="50" cy="50" rx="35" ry="35" fill="transparent" stroke="#fff" stroke-width="10">
+                            </ellipse>
+                            <path d="M 0 0 100 100" stroke="currentcolor" stroke-width="50"></path>
+                            <polygon points="50,0 35,20 57,32" fill="#fff"></polygon>
+                            <polygon points="50,100 65,80 43,68" fill="#fff"></polygon>
+                        </svg>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span id="volWrap">Lautstärke:</span>
+                </td>
+                <td>
+                    <input type="range" id="vol" min="0" max="2" value="1" step="0.01">
+                </td>
+                <td>
+                    <span id="volLabel"></span>%
+                </td>
+                <td>
+                    <button id="resetVol">
+                        <svg viewBox="0 0 100 100" width="24" height="24">
+                            <ellipse cx="50" cy="50" rx="35" ry="35" fill="transparent" stroke="#fff" stroke-width="10">
+                            </ellipse>
+                            <path d="M 0 0 100 100" stroke="currentcolor" stroke-width="50"></path>
+                            <polygon points="50,0 35,20 57,32" fill="#fff"></polygon>
+                            <polygon points="50,100 65,80 43,68" fill="#fff"></polygon>
+                        </svg>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td><span id="speedWrap">Geschwindigkeit:</span>
+                </td>
+                <td><input type="range" id="speed" min="0.07" max="5" value="1" step="0.01">
+                </td>
+                <td><span id="speedVal"></span>%
+                </td>
+                <td>
+                    <button id="resetSpeed">
+                        <svg viewBox="0 0 100 100" width="24" height="24">
+                            <ellipse cx="50" cy="50" rx="35" ry="35" fill="transparent" stroke="#fff" stroke-width="10">
+                            </ellipse>
+                            <path d="M 0 0 100 100" stroke="currentcolor" stroke-width="50"></path>
+                            <polygon points="50,0 35,20 57,32" fill="#fff"></polygon>
+                            <polygon points="50,100 65,80 43,68" fill="#fff"></polygon>
+                        </svg>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td><span id="posWrap">Wird <span id="notplaying">nicht</span> abgespielt:</span>
+                </td>
+                <td><input type="range" id="pos" value="0" min="0" max="0" step="1">
+                </td>
+                <td><span id="playedAll">00:00:00</span>
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <audio autoplay src="about:blank"></audio>
+    <div id="img" style="width:100%;height:100%;background-size: contain;background-repeat: no-repeat;background-position: center;">
+        <img src="about:blank" alt="">
+    </div>
+    <div class="modal_com">
+        <div class="modal-content_com">
+            <span class="close-btn_com">X</span><button id="resetCom2">
+                <svg viewBox="0 0 100 100" width="24" height="24">
+                    <ellipse cx="50" cy="50" rx="35" ry="35" fill="transparent" stroke="#fff" stroke-width="10">
+                    </ellipse>
+                    <path d="M 0 0 100 100" stroke="currentcolor" stroke-width="50"></path>
+                    <polygon points="50,0 35,20 57,32" fill="#fff"></polygon>
+                    <polygon points="50,100 65,80 43,68" fill="#fff"></polygon>
+                </svg>
+            </button>
+            <table class="b">
+                <thead>
+                    <tr>
+                        <td colspan="3">
+                            <h1>Kompressor einstellen</h1>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Schwellwert</td>
+                        <td><input type="range" id="threshold" min="-100" max="0" step="0.001"></td>
+                        <td id="thresholdInfo"></td>
+                    </tr>
+                    <tr>
+                        <td>Knick</td>
+                        <td><input type="range" id="knee" min="0" max="40" step="0.001"></td>
+                        <td id="kneeInfo"></td>
+                    </tr>
+                    <tr>
+                        <td>Verhältnis</td>
+                        <td><input type="range" id="ratio" min="1" max="20" step="0.001"></td>
+                        <td id="ratioInfo"></td>
+                    </tr>
+                    <tr>
+                        <td>Ansprechzeit</td>
+                        <td><input type="range" id="attack" min="0" max="1" step="0.001"></td>
+                        <td id="attackInfo"></td>
+                    </tr>
+                    <tr>
+                        <td>Öffnen</td>
+                        <td><input type="range" id="release" min="0" max="1" step="0.001"></td>
+                        <td id="releaseInfo"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="inter.js">
+    </script>
+</body>
+
+</html>
