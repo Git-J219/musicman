@@ -13,11 +13,11 @@ cp 3rdParty out\musicman-linux-armv7l -r
 cp 3rdParty out\musicman-win32-arm64 -r
 cp 3rdParty out\musicman-win32-x64 -r
 cp 3rdParty out\musicman-win32-ia32 -r
-compress-archive -path out\musicman-linux-x64
-compress-archive -path out\musicman-linux-arm64
-compress-archive -path out\musicman-linux-armv7l
-compress-archive -path out\musicman-win32-arm64
-compress-archive -path out\musicman-win32-x64
-compress-archive -path out\musicman-win32-ia32
+compress-archive -path out\musicman-linux-x64 -destinationpath out\musicman-linux-x64.zip
+compress-archive -path out\musicman-linux-arm64 -destinationpath out\musicman-linux-arm64.zip
+compress-archive -path out\musicman-linux-armv7l -destinationpath out\musicman-linux-armv7l.zip
+compress-archive -path out\musicman-win32-arm64 -destinationpath out\musicman-win32-arm64.zip
+compress-archive -path out\musicman-win32-x64 -destinationpath out\musicman-win32-x64.zip
+compress-archive -path out\musicman-win32-ia32 -destinationpath out\musicman-win32-ia32.zip
 gh release create v0-unversioned out\musicman-linux-x64.zip out\musicman-linux-arm64.zip out\musicman-linux-armv7l.zip out\musicman-win32-x64.zip out\musicman-win32-arm64.zip out\musicman-win32-ia32.zip -d
 gh config set prompt $ghCurrent
