@@ -19,5 +19,5 @@ compress-archive -path out\musicman-linux-armv7l -destinationpath out\musicman-l
 compress-archive -path out\musicman-win32-arm64 -destinationpath out\musicman-win32-arm64.zip
 compress-archive -path out\musicman-win32-x64 -destinationpath out\musicman-win32-x64.zip
 compress-archive -path out\musicman-win32-ia32 -destinationpath out\musicman-win32-ia32.zip
-gh release create v0-unversioned out\musicman-linux-x64.zip out\musicman-linux-arm64.zip out\musicman-linux-armv7l.zip out\musicman-win32-x64.zip out\musicman-win32-arm64.zip out\musicman-win32-ia32.zip -d
+gh release create vunlabeled out\musicman-linux-x64.zip out\musicman-linux-arm64.zip out\musicman-linux-armv7l.zip out\musicman-win32-x64.zip out\musicman-win32-arm64.zip out\musicman-win32-ia32.zip -d
 gh config set prompt $ghCurrent
