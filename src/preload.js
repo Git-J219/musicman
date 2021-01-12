@@ -44,8 +44,8 @@ contextBridge.exposeInMainWorld('file', {
         } else if (playlistI == i) {
             if (playlist.length == playlistI) {
                 playlistI = 0;
-                info = 0;
             }
+            info = 0;
         }
         if (playlist.length == 0) {
             info = 1;
