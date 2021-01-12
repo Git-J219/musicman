@@ -109,12 +109,13 @@ document.querySelector("#ltfp").addEventListener("click", loadTitles);
 document.querySelector("#menuOpen").addEventListener("click", (event) => {
     document.querySelector("audio").playbackRate = 0;
     window.setTimeout(() => {
+        let len = file.getLen();
         var res = file.savePath();
         document.querySelector("audio").playbackRate = document.querySelector("#speed").value;
         if (res && document.querySelector("audio").ended) {
             file.continue();
         }
-        if (res && (file.getLen() == 1 || document.querySelector("audio").ended)) {
+        if (res && (len == 0 || document.querySelector("audio").ended)) {
             loadCurrent();
         }
         if (res) {
@@ -134,6 +135,8 @@ document.querySelector("#menuOpenInstant").addEventListener("click", (e) => {
         }
     });
 });
+document.querySelector("#playlistExport").addEventListener("click", file.exportPl);
+document.querySelector("#playlistImport").addEventListener("click", file.importPl);
 document.querySelector("audio").addEventListener("ended", () => {
     if (file.continue() || loopState == 2) {
         loadCurrent();

@@ -30,6 +30,12 @@ ipcRenderer.on("windowMaximize", (event, arg) => {
 const fname = "mm_musicman_coverart_temp";
 var picPath;
 contextBridge.exposeInMainWorld('file', {
+    exportPl: () => {
+        ipcRenderer.send("playlist-save", JSON.stringify(playlist));
+    },
+    importPl: () => {
+        ipcRenderer.send("playlist-load");
+    },
     remPl: (i) => {
         var info = -1;
         playlist.splice(i, 1);
@@ -48,8 +54,8 @@ contextBridge.exposeInMainWorld('file', {
     },
     savePath: () => {
         var ret = ipcRenderer.sendSync('fileLoad');
-        if (ret) {
-            playlist.push(ret);
+        if (ret && ret.length) {
+            playlist.push(...ret);
             return true;
         }
         return false;
@@ -123,6 +129,13 @@ contextBridge.exposeInMainWorld('file', {
 ipcRenderer.on('file-open-request', (_e, arg) => {
     playlist.push(arg);
     playlistI = playlist.length - 1;
+    document.querySelector("#lcfp").click();
+
+    document.querySelector("#ltfp").click();
+});
+ipcRenderer.on('playlist-open-request', (e, a) => {
+    playlist = JSON.parse(a);
+    playlistI = 0;
     document.querySelector("#lcfp").click();
 
     document.querySelector("#ltfp").click();

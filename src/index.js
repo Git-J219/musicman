@@ -2,6 +2,7 @@ var mainWindow;
 var loading;
 var masLoad;
 const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
+const fs = require('fs');
 const path = require('path');
 const log = require('electron-log');
 const appleMenu = [{
@@ -121,6 +122,10 @@ function secInt(arg) {
     if (loading.isDestroyed()) {
         arg.forEach(element => {
             if (element != arg[0] && element[0] != '-') {
+                if (path.parse(element).ext == ".mmpl") {
+                    mainWindow.webContents.send('playlist-open-request', fs.readFileSync(element, 'utf8'));
+                    return;
+                }
                 mainWindow.webContents.send('file-open-request', element);
             }
         });
@@ -197,6 +202,10 @@ ipcMain.on('init-completed', () => {
         log.debug(process.argv);
         process.argv.forEach(element => {
             if (element != process.argv0 && element[0] != '-' && element != ".") {
+                if (path.parse(element).ext == ".mmpl") {
+                    mainWindow.webContents.send('playlist-open-request', fs.readFileSync(element, 'utf8'));
+                    return;
+                }
                 mainWindow.webContents.send('file-open-request', element);
             }
         });
@@ -210,8 +219,33 @@ ipcMain.on('fileLoad', (event) => {
                 extensions: ['flac', 'mp3', 'wav', 'ogg', 'oga', 'weba', 'm4a']
             },
             { name: "Alle Dateien", extensions: ['*'] }
-        ]
+        ],
+        properties: ['openFile', 'multiSelections']
     }).then((file) => {
-        event.returnValue = file.filePaths[0];
+        event.returnValue = file.filePaths;
     })
+});
+ipcMain.on('playlist-save', (e, a) => {
+    dialog.showSaveDialog({
+        filters: [{
+            name: "Musicman Playlist",
+            extensions: ['mmpl']
+        }]
+    }).then((file) => {
+        if (!file.canceled) {
+            fs.writeFileSync(file.filePath, a, 'utf8');
+        }
+    });
+});
+ipcMain.on('playlist-load', () => {
+    dialog.showOpenDialog({
+        filters: [{
+            name: "Musicman Playlist",
+            extensions: ['mmpl']
+        }]
+    }).then((file) => {
+        if (!file.canceled) {
+            mainWindow.webContents.send('playlist-open-request', fs.readFileSync(file.filePaths[0], 'utf8'));
+        }
+    });
 });
