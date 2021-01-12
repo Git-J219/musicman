@@ -1,5 +1,4 @@
 mos.mos();
-
 [...document.querySelectorAll(".dropdown a")].forEach((mentos) => {
     mentos.addEventListener("click", function(e) {
         drops = [...document.querySelectorAll(".dropdown-content")];
@@ -12,12 +11,73 @@ mos.mos();
     });
 });
 log.verbose("starting up...");
+var loadCurrent;
+var titleScroll = 0;
+var loopState = 0;
+document.querySelector("#loopingState").addEventListener("click", () => {
+    loopState++;
+    if (loopState == 3) {
+        loopState = 0;
+    }
+    updateValuesAll();
+});
 
+function loadTitles() {
+    titleScroll = document.querySelector("#playlist").scrollTop;
+    file.getTitles().then(info => {
+        const titles = info[0];
+        let playlist = document.createElement("div");
+        playlist.style.height = "100%";
+        for (let i = 0; i < titles.length; i++) {
+            const title = titles[i];
+            let item = document.createElement("div");
+            item.setAttribute("data-pos", i);
+            item.innerText = title;
+            if (info[1] == i) {
+                item.style.backgroundColor = "#777";
+            }
+            playlist.appendChild(item);
+        }
+        let oCl = (e) => {
+            if (e.target.nodeName === 'DIV') {
+                file.loadNum(e.target.getAttribute("data-pos"));
 
-function loadCurrent() {
+                loadCurrent();
+                loadTitles();
+            }
+        };
+        playlist.addEventListener("click", oCl);
+        playlist.addEventListener("contextmenu", (e) => {
+            if (e.target.nodeName === 'DIV') {
+                switch (file.remPl(e.target.getAttribute("data-pos"))) {
+                    case 0:
+                        loadCurrent();
+                        break;
+                    case 1:
+                        document.querySelector("audio").src = "about:blank";
+                        document.querySelector("#pos").max = 0;
+                        document.querySelector("#pausing").style.display = "";
+                        document.querySelector("#playing").style.display = "none";
+                        document.querySelector("#img").style.display = "none";
+                        document.querySelector("#imgP").style.display = "";
+                        document.querySelector("title").innerText = "Musicman";
+                        document.querySelector("#title").innerText = "Musicman";
+                        break;
+                }
+                loadTitles();
+            }
+        });
+        document.querySelector("#playlistOuter").innerHTML = "";
+        document.querySelector("#playlistOuter").appendChild(playlist);
+        playlist.id = "playlist";
+        playlist.scrollTo(0, titleScroll);
+    });
+}
+
+loadCurrent = function() {
     document.querySelector("#load").style.display = "";
     document.querySelector("audio").src = file.getPath();
-    document.querySelector("audio").loop = document.querySelector("#loop").checked;
+    document.querySelector("audio").loop = loopState == 1;
     file.getTitle().then((meta) => {
         document.querySelector("title").innerText = (meta.common.title ? meta.common.title : file.loadFallBackTitle()) + " - Musicman";
         document.querySelector("#title").innerText = (meta.common.title ? meta.common.title : file.loadFallBackTitle()) + " - Musicman";
@@ -27,6 +87,7 @@ function loadCurrent() {
             if (fpp) {
                 document.querySelector("#img").style.backgroundImage = "url(" + fpp + "?" + new Date().getTime() + ")";
                 document.querySelector("#img").style.display = "";
+                document.querySelector("#imgP").style.display = "none";
                 log.verbose("Picture found");
                 document.querySelector("#load").style.display = "none";
             } else {
@@ -38,20 +99,46 @@ function loadCurrent() {
             fcheck();
         } else {
             document.querySelector("#img").style.display = "none";
+            document.querySelector("#imgP").style.display = "";
             document.querySelector("#load").style.display = "none";
         }
     });
 }
 document.querySelector("#lcfp").addEventListener("click", loadCurrent);
+document.querySelector("#ltfp").addEventListener("click", loadTitles);
 document.querySelector("#menuOpen").addEventListener("click", (event) => {
     document.querySelector("audio").playbackRate = 0;
     window.setTimeout(() => {
         var res = file.savePath();
         document.querySelector("audio").playbackRate = document.querySelector("#speed").value;
-        if (res) {
+        if (res && document.querySelector("audio").ended) {
+            file.continue();
+        }
+        if (res && (file.getLen() == 1 || document.querySelector("audio").ended)) {
             loadCurrent();
         }
+        if (res) {
+            loadTitles();
+        }
     }, 0);
+});
+document.querySelector("#menuOpenInstant").addEventListener("click", (e) => {
+    document.querySelector("audio").playbackRate = 0;
+    window.setTimeout(() => {
+        var res = file.savePath();
+        document.querySelector("audio").playbackRate = document.querySelector("#speed").value;
+        if (res) {
+            file.loadLast();
+            loadCurrent();
+            loadTitles();
+        }
+    });
+});
+document.querySelector("audio").addEventListener("ended", () => {
+    if (file.continue() || loopState == 2) {
+        loadCurrent();
+        loadTitles();
+    }
 }); {
     /*
         {
@@ -67,7 +154,8 @@ document.querySelector("#menuOpen").addEventListener("click", (event) => {
     document.querySelector("#vol").value = settings.vol;
     document.querySelector("#speed").value = settings.speed;
     document.querySelector("#comp").checked = settings.comp;
-    document.querySelector("#loop").checked = settings.loop;
+
+    loopState = settings.loop;
 
     document.querySelector("#threshold").value = settings.threshold;
     document.querySelector("#knee").value = settings.knee;
@@ -80,7 +168,7 @@ document.querySelector("#menuOpen").addEventListener("click", (event) => {
             vol: document.querySelector("#vol").value,
             speed: document.querySelector("#speed").value,
             comp: document.querySelector("#comp").checked,
-            loop: document.querySelector("#loop").checked,
+            loop: loopState,
             threshold: document.querySelector("#threshold"),
             knee: document.querySelector("#knee").value,
             ratio: document.querySelector("#ratio").value,
@@ -125,6 +213,8 @@ function updateValuesAll() {
         updateValuesAll();
     });
 
+    document.querySelector("#loopingState").innerText = loopState == 0 ? "Keine Widerholung" : loopState == 1 ? "Lied wiederholen" : "Alles wiederholen";
+
     audSrc.disconnect();
     audCom.disconnect();
     if (document.querySelector("#comp").checked) {
@@ -133,7 +223,7 @@ function updateValuesAll() {
         audSrc.connect(audPan);
     }
 
-    document.querySelector("audio").loop = document.querySelector("#loop").checked;
+    document.querySelector("audio").loop = loopState == 1;
     audCom.threshold.value = document.querySelector("#threshold").value;
     audCom.knee.value = document.querySelector("#knee").value;
     audCom.ratio.value = document.querySelector("#ratio").value;
@@ -222,10 +312,12 @@ function updateValuesAll() {
     document.querySelector("audio").addEventListener("loadedmetadata", (e) => {
         document.querySelector("#pos").max = Math.round(document.querySelector("audio").duration);
     });
-    document.querySelector("#loop").addEventListener("input", (e) => {
-        document.querySelector("audio").loop = document.querySelector("#loop").checked;
-    });
+
     document.querySelector("#play").addEventListener("click", (e) => {
+        if (document.querySelector("audio").ended) {
+            loadCurrent();
+            loadTitles();
+        }
         if (!document.querySelector("audio").paused) {
             document.querySelector("audio").pause();
         } else {
@@ -249,12 +341,13 @@ function updateValuesAll() {
         document.querySelector("#speed").value = 1;
 
         document.querySelector("#comp").checked = false;
-        document.querySelector("#loop").checked = false;
         document.querySelector("#threshold").value = -24;
         document.querySelector("#knee").value = 30;
         document.querySelector("#ratio").value = 12;
         document.querySelector("#attack").value = 0.003;
         document.querySelector("#release").value = 0.25;
+
+        loopState = 0;
         updateValuesAll();
     }); {
         updateValuesAll();

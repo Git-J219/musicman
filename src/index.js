@@ -1,7 +1,6 @@
 var mainWindow;
 var loading;
 var masLoad;
-var packaged = true;
 const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const path = require('path');
 const log = require('electron-log');
@@ -42,12 +41,20 @@ const appleMenu = [{
     {
         label: 'Datei',
         submenu: [{
-            label: 'Öffnen',
-            accelerator: 'CmdOrCtrl+O',
-            click: () => {
-                mainWindow.webContents.send('open-requested')
+                label: 'Öffnen',
+                accelerator: 'CmdOrCtrl+O',
+                click: () => {
+                    mainWindow.webContents.send('open-requested', true)
+                }
+            },
+            {
+                label: 'Zur Playlist hinzufügen',
+                accelerator: 'CmdOrCtrl+Shift+O',
+                click: () => {
+                    mainWindow.webContents.send('open-requested', false);
+                }
             }
-        }]
+        ]
     }
 ];
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -107,21 +114,18 @@ app.on('ready', () => Menu.setApplicationMenu(Menu.buildFromTemplate(appleMenu))
 app.on('ready', createWindow);
 
 function secInt(arg) {
-    if (packaged) {
-        if (mainWindow.isMinimized()) {
-            mainWindow.restore();
-        }
-        mainWindow.focus();
-        if (loading.isDestroyed()) {
-            arg.forEach(element => {
-                if (element != arg[0] && element[0] != '-') {
-                    mainWindow.webContents.send('file-open-request', element);
-
-                    return;
-                }
-            });
-        }
+    if (mainWindow.isMinimized()) {
+        mainWindow.restore();
     }
+    mainWindow.focus();
+    if (loading.isDestroyed()) {
+        arg.forEach(element => {
+            if (element != arg[0] && element[0] != '-') {
+                mainWindow.webContents.send('file-open-request', element);
+            }
+        });
+    }
+
 }
 app.on('second-instance', (e, arg) => {
     secInt(arg);
@@ -186,19 +190,17 @@ ipcMain.on('windowMsg', (event, arg) => {
 ipcMain.on('init-completed', () => {
     loading.destroy();
     mainWindow.show();
-    if (packaged) {
-        if (masLoad) {
-            mainWindow.webContents.send('file-open-request', masLoad);
-        } else {
-            log.debug("Opened With Arguments:");
-            log.debug(process.argv);
-            process.argv.forEach(element => {
-                if (element != process.argv0 && element[0] != '-') {
-                    mainWindow.webContents.send('file-open-request', element);
-                    return;
-                }
-            });
-        }
+    if (masLoad) {
+        mainWindow.webContents.send('file-open-request', masLoad);
+    } else {
+        log.debug("Opened With Arguments:");
+        log.debug(process.argv);
+        process.argv.forEach(element => {
+            if (element != process.argv0 && element[0] != '-' && element != ".") {
+                mainWindow.webContents.send('file-open-request', element);
+            }
+        });
+
     }
 });
 ipcMain.on('fileLoad', (event) => {

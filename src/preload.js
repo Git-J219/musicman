@@ -5,7 +5,10 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const log = require('electron-log');
+var playlist = [];
+var playlistI = 0;
 log.catchErrors();
+
 // log //
 contextBridge.exposeInMainWorld('log', log.functions);
 // Window Things //
@@ -25,31 +28,53 @@ ipcRenderer.on("windowMaximize", (event, arg) => {
 });
 // File //
 const fname = "mm_musicman_coverart_temp";
-var cPath;
 var picPath;
 contextBridge.exposeInMainWorld('file', {
+    remPl: (i) => {
+        var info = -1;
+        playlist.splice(i, 1);
+        if (playlistI > i) {
+            playlistI--;
+        } else if (playlistI == i) {
+            if (playlist.length == playlistI) {
+                playlistI = 0;
+                info = 0;
+            }
+        }
+        if (playlist.length == 0) {
+            info = 1;
+        }
+        return info;
+    },
     savePath: () => {
         var ret = ipcRenderer.sendSync('fileLoad');
-        cPath = ret;
         if (ret) {
+            playlist.push(ret);
             return true;
-        } else {
-            return false;
         }
-
+        return false;
+    },
+    loadLast: () => {
+        playlistI = playlist.length - 1;
+    },
+    getLen: () => {
+        return playlist.length;
+    },
+    loadNum: (num) => {
+        playlistI = num;
     },
     getPath: () => {
-        if (cPath) {
-            return url.pathToFileURL(cPath).toString();
+        if (playlist[playlistI]) {
+            return url.pathToFileURL(playlist[playlistI]).toString();
         } else {
             return;
         }
     },
     getTitle: () => {
-        if (path.parse(cPath).ext == '.weba') {
+        if (path.parse(playlist[playlistI]).ext == '.weba') {
             return Promise.resolve({ common: {} })
         }
-        let mmmmmmmmmmmmmmmmmmmm = mm.parseFile(cPath);
+        let mmmmmmmmmmmmmmmmmmmm = mm.parseFile(playlist[playlistI]);
         picPath = false;
         mmmmmmmmmmmmmmmmmmmm.then((meta) => {
             if (meta.common.picture) {
@@ -67,13 +92,40 @@ contextBridge.exposeInMainWorld('file', {
         }
     },
     loadFallBackTitle: () => {
-        return path.parse(cPath).name;
+        return path.parse(playlist[playlistI]).name;
+    },
+    continue: () => {
+        playlistI++;
+        if (playlist.length == playlistI) {
+            playlistI = 0;
+            return false;
+        } else {
+            return true;
+        }
+    },
+    getTitles: async function() {
+        var titles = [];
+        for (let i = 0; i < playlist.length; i++) {
+            const p = playlist[i];
+            var title = "";
+            if (path.parse(p).ext === '.weba') {
+                title = path.parse(p).name;
+            } else {
+                let res = await mm.parseFile(p);
+                title = res.common.title ? res.common.title : path.parse(p).name;
+            }
+            titles.push(title);
+        }
+        return [titles, playlistI];
     }
 });
 // Open-Request from Main Process
 ipcRenderer.on('file-open-request', (_e, arg) => {
-    cPath = arg;
-    document.querySelector('#lcfp').click();
+    playlist.push(arg);
+    playlistI = playlist.length - 1;
+    document.querySelector("#lcfp").click();
+
+    document.querySelector("#ltfp").click();
 });
 // MOS //
 contextBridge.exposeInMainWorld('mos', {
@@ -85,8 +137,8 @@ ipcRenderer.on('mosUpdate', (event, arg) => {
     arg ? document.body.classList.add('mos') : document.body.classList.remove('mos');
 });
 // FileLoadRequest //
-ipcRenderer.on('open-requested', () => {
-    document.querySelector('#menuOpen').click();
+ipcRenderer.on('open-requested', (e, a) => {
+    a ? document.querySelector('#menuOpenInstant').click() : document.querySelector('#menuOpen').click();
 });
 // InitCompleted //
 contextBridge.exposeInMainWorld('init', {

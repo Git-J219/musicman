@@ -322,3 +322,24 @@ table {
         opacity: 1
     }
 }
+
+#playlist {
+    overflow-x: auto;
+}
+
+#playlist div {
+    padding: 10px;
+}
+
+#loopingStateWrapper,
+#loopingState {
+    padding: 5px;
+}
+
+#loopingState {
+    width: fit-content;
+}
+
+#loopingState:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}

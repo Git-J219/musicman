@@ -12,7 +12,7 @@
 
 <body>
     <div id="app_title">
-        <!--Loads Current File onclick -- communication between preload.js and inter.js-->
+        <div id="ltfp" style="display:none;">Diese Message sollte eigentlich garnicht erscheinen</div>
         <div id="lcfp" style="display:none;">SOnO&#xE1;O O&#xBB;O&#xFC;O OLOO &#x152;O OnOoOOJ</div>
         <div class="hide-mos" id="app_close" aria-label="Schließen" tabindex="-1" role="button">
             <div class="codicon codicon-chrome-close"></div>
@@ -27,7 +27,8 @@
         <div class="dropdown hide-mos">
             <button class="dropbtn">Datei<div class="codicon codicon-triangle-down"></div></button>
             <div class="dropdown-content">
-                <a id="menuOpen" href="#">Öffnen</a>
+                <a id="menuOpenInstant" href="#">Öffnen</a>
+                <a id="menuOpen" href="#">Zur Playlist hinzufügen</a>
             </div>
         </div>
         <span id="title">Musicman</span>
@@ -69,12 +70,9 @@
             <tr>
                 <td>
                 </td>
-                <td>
-                    <div class="label">
-                        <input type="checkbox" id="loop" name="loop">
-                        <label for="loop">
-                            Lied wiederholen
-                        </label>
+                <td id="loopingStateWrapper">
+                    <div id="loopingState">
+
                     </div>
                 </td>
                 <td></td>
@@ -180,8 +178,13 @@
         </tbody>
     </table>
     <audio autoplay src="about:blank"></audio>
-    <div id="img" style="width:100%;height:100%;background-size: contain;background-repeat: no-repeat;background-position: center;">
-        <img src="about:blank" alt="">
+    <div style="height:100%;padding:0;margin:0;">
+        <div id="img" style="width:100%;height:75%;background-size: contain;background-repeat: no-repeat;background-position: center;">
+        </div>
+        <div id="imgP" style="height:75%;display:none;"></div>
+        <div id="playlistOuter" style="height:25%">
+            <div id="playlist" style="height:100%;"></div>
+        </div>
     </div>
     <div class="modal_com">
         <div class="modal-content_com">
