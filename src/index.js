@@ -54,6 +54,20 @@ const appleMenu = [{
                 click: () => {
                     mainWindow.webContents.send('open-requested', false);
                 }
+            },
+            {
+                label: 'Playlist exportieren',
+                accelerator: 'CmdOrCtrl+E',
+                click: () => {
+                    mainWindow.webContents.send('playlist-control', true);
+                }
+            },
+            {
+                label: 'Playlist importieren',
+                accelerator: 'CmdOrCtrl+I',
+                click: () => {
+                    mainWindow.webContents.send('playlist-control', false);
+                }
             }
         ]
     }

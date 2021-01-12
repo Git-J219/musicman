@@ -153,6 +153,9 @@ ipcRenderer.on('mosUpdate', (event, arg) => {
 ipcRenderer.on('open-requested', (e, a) => {
     a ? document.querySelector('#menuOpenInstant').click() : document.querySelector('#menuOpen').click();
 });
+ipcRenderer.on('playlist-control', (e, exporting) => {
+    exporting ? document.querySelector("#playlistExport").click() : document.querySelector("#playlistImport").click();
+});
 // InitCompleted //
 contextBridge.exposeInMainWorld('init', {
     completed: () => {
