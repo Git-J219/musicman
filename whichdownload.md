@@ -7,5 +7,4 @@ Deine Datei ist dann: musicman-windows-*dein Ergebnis*.zip
 ## Linux
 Mit `uname -m` bekommst du deine Architektur und nimmst dann diesen Download: musicman-linux-*dein Ergebnis*.zip
 ## Mac-OS
-Aus technischen Gründen werden für Mac-OS keine Downloads bereitgestellt.
-[Hier](https://github.com/Git-J219/musicman/discussions/new) unter der Kategorie Mac-OS bekommst du Support.
+Probiere musicman-darwin-arm64.zip. Wenn es nicht funktioniert versuche musicman-darwin-x64.zip.
