@@ -1,5 +1,7 @@
 # Musicman
 Musicman ist ein Open-Source Musikprogramm.
 Du kannst hier auch mitarbeiten!
-## Mac-OS
-Wenn du Mac-OS nutzt und das Programm verwenden möchtest bekommst du hier Hilfe: [\*klick\*](https://github.com/Git-J219/musicman/discussions/new)(Kategorie: Mac-OS)
+## Downloads
+So findest du heraus welcher Download für dich ist: [\*klick\*](https://git-j219.github.io/musicman/whichdownload)
+Die Downloads sind hier: [\*klick\*](https://github.com/Git-J219/musicman/releases)
+
