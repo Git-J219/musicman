@@ -208,13 +208,14 @@ ipcMain.on('windowMsg', (event, arg) => {
 });
 ipcMain.on('init-completed', () => {
     loading.destroy();
+    procarg = process.argv;
     mainWindow.show();
     if (masLoad) {
-        mainWindow.webContents.send('file-open-request', masLoad);
+        procarg = ["-", masLoad];
     } else {
         log.debug("Opened With Arguments:");
-        log.debug(process.argv);
-        process.argv.forEach(element => {
+        log.debug(procarg);
+        procarg.forEach(element => {
             if (element != process.argv0 && element[0] != '-' && element != ".") {
                 if (path.parse(element).ext == ".mmpl") {
                     mainWindow.webContents.send('playlist-open-request', fs.readFileSync(element, 'utf8'));
