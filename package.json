@@ -18,15 +18,17 @@
                     ".*package.ps1.*"
                 ]
             },
-            "makers": [{
-                "name": "@electron-forge/maker-zip"
-            }]
+            "makers": [
+                {
+                    "name": "@electron-forge/maker-zip"
+                }
+            ]
         }
     },
     "dependencies": {
         "electron-log": "^4.3.1",
         "electron-squirrel-startup": "^1.0.0",
-        "music-metadata": "^7.5.3"
+        "music-metadata": "^7.6.4"
     },
     "devDependencies": {
         "@electron-forge/cli": "^6.0.0-beta.54",
