@@ -1,6 +1,7 @@
 var mainWindow;
 var loading;
 var masLoad;
+var menuCommand;
 const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const fs = require('fs');
 const path = require('path');
@@ -45,28 +46,51 @@ const appleMenu = [{
                 label: 'Öffnen',
                 accelerator: 'CmdOrCtrl+O',
                 click: () => {
-                    mainWindow.webContents.send('open-requested', true)
+                    if (loading) {
+                        menuCommand = 0;
+                    } else if (BrowserWindow.getAllWindows().length === 0) {
+                        menuCommand = 0;
+                        createWindow();
+                    } else {
+                        mainWindow.webContents.send('open-requested', true);
+                    }
                 }
             },
             {
                 label: 'Zur Playlist hinzufügen',
                 accelerator: 'CmdOrCtrl+Shift+O',
                 click: () => {
-                    mainWindow.webContents.send('open-requested', false);
+                    if (loading) {
+                        menuCommand = 1;
+                    } else if (BrowserWindow.getAllWindows().length === 0) {
+                        menuCommand = 1;
+                        createWindow();
+                    } else {
+                        mainWindow.webContents.send('open-requested', false);
+                    }
                 }
             },
             {
                 label: 'Playlist exportieren',
                 accelerator: 'CmdOrCtrl+E',
                 click: () => {
-                    mainWindow.webContents.send('playlist-control', true);
+                    if (!(loading || BrowserWindow.getAllWindows.length === 0)) {
+                        mainWindow.webContents.send('playlist-control', true);
+                    }
                 }
             },
             {
                 label: 'Playlist importieren',
                 accelerator: 'CmdOrCtrl+I',
                 click: () => {
-                    mainWindow.webContents.send('playlist-control', false);
+                    if (loading) {
+                        menuCommand = 2;
+                    } else if (BrowserWindow.getAllWindows().length === 0) {
+                        menuCommand = 2;
+                        createWindow();
+                    } else {
+                        mainWindow.webContents.send('playlist-control', false);
+                    }
                 }
             }
         ]
@@ -151,6 +175,7 @@ app.on('second-instance', (e, arg) => {
 });
 app.on('open-file', (e, a) => {
     e.preventDefault();
+    log.debug(a);
     if (loading) {
         if (BrowserWindow.getAllWindows().length === 0) {
             masLoad = a;
@@ -161,6 +186,7 @@ app.on('open-file', (e, a) => {
     } else {
         masLoad = a;
     }
+    log.debug(masLoad);
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -212,19 +238,32 @@ ipcMain.on('init-completed', () => {
     mainWindow.show();
     if (masLoad) {
         procarg = ["-", masLoad];
-    } else {
-        log.debug("Opened With Arguments:");
-        log.debug(procarg);
-        procarg.forEach(element => {
-            if (element != process.argv0 && element[0] != '-' && element != ".") {
-                if (path.parse(element).ext == ".mmpl") {
-                    mainWindow.webContents.send('playlist-open-request', fs.readFileSync(element, 'utf8'));
-                    return;
-                }
-                mainWindow.webContents.send('file-open-request', element);
+        masLoad = false;
+    }
+    log.debug("Opened With Arguments:");
+    log.debug(procarg);
+    procarg.forEach(element => {
+        if (element != process.argv0 && element[0] != '-' && element != ".") {
+            if (path.parse(element).ext == ".mmpl") {
+                mainWindow.webContents.send('playlist-open-request', fs.readFileSync(element, 'utf8'));
+                return;
             }
-        });
-
+            mainWindow.webContents.send('file-open-request', element);
+        }
+    });
+    if (menuCommand === undefined) {
+        switch (menuCommand) {
+            case 0:
+                mainWindow.webContents.send('open-requested', true);
+                break;
+            case 1:
+                mainWindow.webContents.send('open-requested', false);
+                break;
+            case 2:
+                mainWindow.webContents.send('playlist-control', false);
+                break;
+        }
+        menuCommand = undefined;
     }
 });
 ipcMain.on('fileLoad', (event) => {
