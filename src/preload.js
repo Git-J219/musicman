@@ -162,3 +162,8 @@ contextBridge.exposeInMainWorld('init', {
         ipcRenderer.send('init-completed');
     }
 });
+
+
+ipcRenderer.on("focused", (e, a) => {
+    a ? document.body.classList.remove("winactive") : document.body.classList.add("winactive");
+});

@@ -139,11 +139,18 @@ const createWindow = () => {
     mainWindow.addListener("unmaximize", () => {
         mainWindow.webContents.send("windowMaximize", mainWindow.isMaximized());
     });
+    mainWindow.addListener("blur", () => {
+        mainWindow.webContents.send("focused", false);
+    });
+    mainWindow.addListener("focus", () => {
+        mainWindow.webContents.send("focused", true);
+    });
     mainWindow.addListener("close", () => {
         mainWindow.hide();
     });
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, 'index.html'));
+    mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
