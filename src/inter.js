@@ -216,7 +216,7 @@ function updateValuesAll() {
         updateValuesAll();
     });
 
-    document.querySelector("#loopingState").innerText = loopState == 0 ? "Keine Widerholung" : loopState == 1 ? "Lied wiederholen" : "Alles wiederholen";
+    document.querySelector("#loopingState").innerText = loopState == 0 ? "Keine Wiederholung" : loopState == 1 ? "Lied wiederholen" : "Alles wiederholen";
 
     audSrc.disconnect();
     audCom.disconnect();
