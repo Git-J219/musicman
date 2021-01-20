@@ -9,3 +9,5 @@ Deine Datei ist dann: musicman-windows-*dein Ergebnis*.zip
 Mit `uname -m` bekommst du deine Architektur und nimmst dann diesen Download: musicman-linux-*dein Ergebnis*.zip
 ## Mac-OS
 Aktuell weiss ich nicht wie man das herausfindet. musicman-darwin-x64.zip sollte funktionieren.
+### Nicht ausführbar?
+Auf Mac-OS ist es nicht ausführbar. Deshalb musst du auf das Programm rechtsklicken und öffnen wählen. Dort kannst du dann ausführen wählen.
