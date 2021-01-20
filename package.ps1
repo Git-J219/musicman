@@ -1,19 +1,21 @@
 $null = rm -r out
 echo "Der Ausgabeordner wurde gelöscht"
-$ghCurrent = $(gh config get prompt)
+$ghCurrent = gh config get prompt
+$progOrig = $ProgressPreference
+$ProgressPreference = "SilentlyContinue"
 $null = gh config set prompt disabled
 echo "Verpacken: linux x64"
-$null = electron-forge package --arch=x64 --platform=linux
+$null = electron-forge package --arch=x64 --platform=linux 2> $null
 echo "Verpacken: linux arm64"
-$null = electron-forge package --arch=arm64 --platform=linux
+$null = electron-forge package --arch=arm64 --platform=linux 2> $null
 echo "Verpacken: linux armv7l"
-$null = electron-forge package --arch=armv7l --platform=linux
+$null = electron-forge package --arch=armv7l --platform=linux 2> $null
 echo "Verpacken: win32 arm64"
-$null = electron-forge package --arch=arm64 --platform=win32
+$null = electron-forge package --arch=arm64 --platform=win32 2> $null
 echo "Verpacken: win32 x64"
-$null = electron-forge package --arch=x64 --platform=win32
+$null = electron-forge package --arch=x64 --platform=win32 2> $null
 echo "Verpacken: win32 ia32"
-$null = electron-forge package --arch=ia32 --platform=win32
+$null = electron-forge package --arch=ia32 --platform=win32 2> $null
 echo "Lizensen kopieren: linux x64"
 $null = cp 3rdParty out\musicman-linux-x64 -r
 echo "Lizensen kopieren: linux arm64"
@@ -41,3 +43,4 @@ $null = compress-archive -path out\musicman-win32-ia32 -destinationpath out\musi
 echo "Hochladen..."
 $null = gh release create vunlabeled out\musicman-linux-x64.zip out\musicman-linux-arm64.zip out\musicman-linux-armv7l.zip out\musicman-win32-x64.zip out\musicman-win32-arm64.zip out\musicman-win32-ia32.zip -d
 gh config set prompt $ghCurrent
+$ProgressPreference = $progOrig
