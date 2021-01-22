@@ -41,6 +41,6 @@ jobs:
           create-archive -path out\musicman-win32-x64 -destinationpath out\musicman-win32-x64.zip
           create-archive -path out\musicman-win32-arm64 -destinationpath out\musicman-win32-arm64.zip
           create-archive -path out\musicman-win32-ia32 -destinationpath out\musicman-win32-ia32.zip
-- name: Get the version
-  id: get_version
-  run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
