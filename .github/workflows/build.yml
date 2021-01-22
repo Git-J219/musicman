@@ -94,8 +94,11 @@ jobs:
           cp 3rdParty out\musicman-darwin-arm64 -r
           zip -ryv out\musicman-darwin-x64.zip out\musicman-darwin-x64
           zip -ryv out\musicman-darwin-arm64.zip out\musicman-darwin-arm64
+          echo -----
           ls
+          echo -----
           ls out
+          echo -----
       - uses: actions/upload-artifact@v2
         with:
           name: darwin-x64
