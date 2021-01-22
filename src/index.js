@@ -2,6 +2,7 @@ let mainWindow;
 let loading;
 let menuCommand;
 let openQueue = [];
+let macOsOpen = false;
 const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const fs = require('fs');
 const path = require('path');
@@ -186,6 +187,10 @@ app.on('second-instance', (e, arg) => {
 });
 app.on('open-file', (e, a) => {
     e.preventDefault();
+    if (!macOsOpen) {
+        openQueue = [];
+    }
+    macOsOpen = true;
     log.debug(a);
     if (loading) {
         if (BrowserWindow.getAllWindows().length === 0) {
