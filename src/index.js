@@ -1,11 +1,12 @@
-var mainWindow;
-var loading;
-var masLoad;
-var menuCommand;
+let mainWindow;
+let loading;
+let menuCommand;
+let openQueue = [];
 const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const log = require('electron-log');
+
 const appleMenu = [{
     label: 'Musicman',
     submenu: [{
@@ -105,7 +106,7 @@ if (!app.requestSingleInstanceLock()) {
 }
 const createWindow = () => {
     // Create the browser window.
-    let info = {
+    const info = {
         width: 800,
         height: 600,
         frame: false,
@@ -150,6 +151,7 @@ const createWindow = () => {
     });
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, 'index.html'));
+    mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
@@ -157,6 +159,9 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => Menu.setApplicationMenu(Menu.buildFromTemplate(appleMenu)));
 app.on('ready', createWindow);
+app.on('ready', () => {
+    openQueue = process.argv.slice(1);
+});
 
 function secInt(arg) {
     if (mainWindow.isMinimized()) {
@@ -165,8 +170,8 @@ function secInt(arg) {
     mainWindow.focus();
     if (loading.isDestroyed()) {
         arg.forEach(element => {
-            if (element != arg[0] && element[0] != '-') {
-                if (path.parse(element).ext == '.mmpl') {
+            if (element !== arg[0] && element[0] !== '-') {
+                if (path.parse(element).ext === '.mmpl') {
                     mainWindow.webContents.send('playlist-open-request', fs.readFileSync(element, 'utf8'));
                     return;
                 }
@@ -174,7 +179,6 @@ function secInt(arg) {
             }
         });
     }
-
 }
 app.on('second-instance', (e, arg) => {
     secInt(arg);
@@ -184,15 +188,14 @@ app.on('open-file', (e, a) => {
     log.debug(a);
     if (loading) {
         if (BrowserWindow.getAllWindows().length === 0) {
-            masLoad = a;
+            openQueue.push('a');
             createWindow();
         } else {
             secInt(['-', a]);
         }
     } else {
-        masLoad = a;
+        openQueue.push(a);
     }
-    log.debug(masLoad);
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -225,39 +228,32 @@ ipcMain.on('mos', (event) => {
 ipcMain.on('windowMsg', (_, arg) => {
     switch (arg) {
     case 0:
-        //maximize
+        // maximize
         mainWindow.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
         break;
     case 1:
-        //minimize
+        // minimize
         mainWindow.minimize();
         break;
     case 2:
-        //close
+        // close
         mainWindow.close();
         break;
     }
 });
 ipcMain.on('init-completed', () => {
     loading.destroy();
-    let procarg = process.argv;
     mainWindow.show();
-    if (masLoad) {
-        procarg = ['-', masLoad];
-        masLoad = false;
-    }
-    log.debug('Opened With Arguments:');
-    log.debug(procarg);
-    procarg.forEach(element => {
-        if (element != process.argv0 && element[0] != '-' && element != '.') {
-            if (path.parse(element).ext == '.mmpl') {
+    openQueue.forEach(element => {
+        if (element[0] !== '-' && element !== '.') {
+            if (path.parse(element).ext === '.mmpl') {
                 mainWindow.webContents.send('playlist-open-request', fs.readFileSync(element, 'utf8'));
                 return;
             }
             mainWindow.webContents.send('file-open-request', element);
         }
     });
-    if (menuCommand === undefined) {
+    if (menuCommand !== undefined) {
         switch (menuCommand) {
         case 0:
             mainWindow.webContents.send('open-requested', true);

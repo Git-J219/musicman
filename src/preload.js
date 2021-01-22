@@ -2,14 +2,16 @@ const fs = require('fs');
 const os = require('os');
 const url = require('url');
 
-const { contextBridge, ipcRenderer, } = require('electron');
+const { contextBridge, ipcRenderer } = require('electron');
 
 const mm = require('music-metadata');
 const path = require('path');
 const log = require('electron-log');
 
-var playlist = [];
-var playlistI = 0;
+let playlist = [];
+let playlistI = 0;
+let picPath;
+
 log.catchErrors();
 
 // Window Things //
@@ -29,7 +31,6 @@ ipcRenderer.on('windowMaximize', (event, arg) => {
 });
 // File //
 const fname = 'mm_musicman_coverart_temp';
-var picPath;
 contextBridge.exposeInMainWorld('file', {
     exportPl: () => {
         ipcRenderer.send('playlist-save', JSON.stringify(playlist));
@@ -42,19 +43,19 @@ contextBridge.exposeInMainWorld('file', {
         playlist.splice(i, 1);
         if (playlistI > i) {
             playlistI--;
-        } else if (playlistI == i) {
-            if (playlist.length == playlistI) {
+        } else if (playlistI === i) {
+            if (playlist.length === playlistI) {
                 playlistI = 0;
             }
             info = 0;
         }
-        if (playlist.length == 0) {
+        if (playlist.length === 0) {
             info = 1;
         }
         return info;
     },
     savePath: () => {
-        let ret = ipcRenderer.sendSync('fileLoad');
+        const ret = ipcRenderer.sendSync('fileLoad');
         if (ret && ret.length) {
             playlist.push(...ret);
             return true;
@@ -73,29 +74,25 @@ contextBridge.exposeInMainWorld('file', {
     getPath: () => {
         if (playlist[playlistI]) {
             return url.pathToFileURL(playlist[playlistI]).toString();
-        } else {
-            return;
         }
     },
     getTitle: () => {
-        if (path.parse(playlist[playlistI]).ext == '.weba') {
+        if (path.parse(playlist[playlistI]).ext === '.weba') {
             return Promise.resolve({ common: {} });
         }
-        let mmmmmmmmmmmmmmmmmmmm = mm.parseFile(playlist[playlistI]);
+        const metadata = mm.parseFile(playlist[playlistI]);
         picPath = false;
-        mmmmmmmmmmmmmmmmmmmm.then((meta) => {
+        metadata.then((meta) => {
             if (meta.common.picture) {
                 fs.writeFileSync(path.join(os.tmpdir(), fname), meta.common.picture[0].data);
                 picPath = true;
             }
         });
-        return mmmmmmmmmmmmmmmmmmmm;
+        return metadata;
     },
     getPicPath: () => {
         if (picPath) {
             return url.pathToFileURL(path.join(os.tmpdir(), fname)).toString();
-        } else {
-            return;
         }
     },
     loadFallBackTitle: () => {
@@ -103,7 +100,7 @@ contextBridge.exposeInMainWorld('file', {
     },
     continue: () => {
         playlistI++;
-        if (playlist.length == playlistI) {
+        if (playlist.length === playlistI) {
             playlistI = 0;
             return false;
         } else {
@@ -111,14 +108,14 @@ contextBridge.exposeInMainWorld('file', {
         }
     },
     getTitles: async function() {
-        let titles = [];
+        const titles = [];
         for (let i = 0; i < playlist.length; i++) {
             const p = playlist[i];
             let title = '';
             if (path.parse(p).ext === '.weba') {
                 title = path.parse(p).name;
             } else {
-                let res = await mm.parseFile(p);
+                const res = await mm.parseFile(p);
                 title = res.common.title ? res.common.title : path.parse(p).name;
             }
             titles.push(title);
@@ -163,7 +160,6 @@ contextBridge.exposeInMainWorld('init', {
         ipcRenderer.send('init-completed');
     }
 });
-
 
 ipcRenderer.on('focused', (e, a) => {
     a ? document.body.classList.remove('winactive') : document.body.classList.add('winactive');
