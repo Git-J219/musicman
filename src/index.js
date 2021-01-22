@@ -246,6 +246,7 @@ ipcMain.on('windowMsg', (_, arg) => {
 ipcMain.on('init-completed', () => {
     loading.destroy();
     mainWindow.show();
+    mainWindow.focus();
     openQueue.forEach(element => {
         if (element[0] !== '-' && element !== '.') {
             if (path.parse(element).ext === '.mmpl') {
