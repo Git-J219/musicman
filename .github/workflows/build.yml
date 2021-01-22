@@ -34,15 +34,15 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: win32-x64
-          path: /out/musicman-win32-x64.zip
+          path: out/musicman-win32-x64.zip
       - uses: actions/upload-artifact@v2
         with:
           name: win32-arm64
-          path: /out/musicman-win32-arm64.zip
+          path: out/musicman-win32-arm64.zip
       - uses: actions/upload-artifact@v2
         with:
           name: win32-ia32
-          path: /out/musicman-win32-ia32.zip
+          path: out/musicman-win32-ia32.zip
   build-linux:
     runs-on: ubuntu-latest
     steps:
@@ -63,20 +63,18 @@ jobs:
           zip -ryv out\musicman-linux-x64.zip out\musicman-linux-x64
           zip -ryv out\musicman-linux-arm64.zip out\musicman-linux-arm64
           zip -ryv out\musicman-linux-armv7l.zip out\musicman-linux-armv7l
-          pwd
-          ls
       - uses: actions/upload-artifact@v2
         with:
           name: linux-x64
-          path: /out/musicman-linux-x64.zip
+          path: out/musicman-linux-x64.zip
       - uses: actions/upload-artifact@v2
         with:
           name: linux-arm64
-          path: /out/musicman-linux-arm64.zip
+          path: out/musicman-linux-arm64.zip
       - uses: actions/upload-artifact@v2
         with:
           name: linux-armv7l
-          path: /out/musicman-linux-armv7l.zip
+          path: out/musicman-linux-armv7l.zip
   build-macos:
     runs-on: ubuntu-latest
     steps:
@@ -97,9 +95,9 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: darwin-x64
-          path: /out/musicman-darwin-x64.zip
+          path: out/musicman-darwin-x64.zip
       - uses: actions/upload-artifact@v2
         with:
           name: darwin-arm64
-          path: /out/musicman-darwin-arm64.zip
+          path: out/musicman-darwin-arm64.zip
     
