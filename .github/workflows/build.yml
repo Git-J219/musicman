@@ -40,7 +40,7 @@ jobs:
           create-archive -path out\musicman-win32-ia32 -destinationpath out\musicman-win32-ia32.zip
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        uses: actions/create-release@c38d3a140cc22e67e265c5d5b6b4888d1f02533f
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
