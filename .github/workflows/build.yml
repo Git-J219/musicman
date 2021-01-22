@@ -55,7 +55,6 @@ jobs:
       - name: Package
         shell: bash
         run: |
-          exit
           npm i
           npx electron-forge package --arch=x64 --platform=linux
           npx electron-forge package --arch=arm64 --platform=linux
