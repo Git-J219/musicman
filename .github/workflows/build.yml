@@ -34,6 +34,7 @@ jobs:
           compress-archive -destinationpath musicman-win32-x64.zip -path musicman-win32-x64
           compress-archive -destinationpath musicman-win32-arm64.zip -path musicman-win32-arm64
           compress-archive -destinationpath musicman-win32-ia32.zip -path musicman-win32-ia32
+          cd ..
       - uses: actions/upload-artifact@v2
         with:
           name: win32-x64
@@ -67,6 +68,7 @@ jobs:
           zip -ryv musicman-linux-x64.zip musicman-linux-x64
           zip -ryv musicman-linux-arm64.zip musicman-linux-arm64
           zip -ryv musicman-linux-armv7l.zip musicman-linux-armv7l
+          cd ..
       - uses: actions/upload-artifact@v2
         with:
           name: linux-x64
@@ -97,6 +99,7 @@ jobs:
           cd out
           zip -ryv musicman-darwin-x64.zip musicman-darwin-x64
           zip -ryv musicman-darwin-arm64.zip musicman-darwin-arm64
+          cd ..
       - uses: actions/upload-artifact@v2
         with:
           name: darwin-x64
