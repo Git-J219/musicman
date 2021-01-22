@@ -63,6 +63,8 @@ jobs:
           zip -ryv out\musicman-linux-x64.zip out\musicman-linux-x64
           zip -ryv out\musicman-linux-arm64.zip out\musicman-linux-arm64
           zip -ryv out\musicman-linux-armv7l.zip out\musicman-linux-armv7l
+          pwd
+          ls
       - uses: actions/upload-artifact@v2
         with:
           name: linux-x64
