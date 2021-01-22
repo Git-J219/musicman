@@ -25,6 +25,13 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "eqeqeq": [
+            "error",
+            "smart"
+        ],
+        "no-implied-eval": "error",
+        "no-eval": "error",
+        "yoda": "error"
     }
 }
