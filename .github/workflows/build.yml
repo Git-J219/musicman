@@ -14,7 +14,7 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: RemcoHalman/python-helloworld-action@v0.0.1
+      - uses: https://github.com/RemcoHalman/python-helloworld-action@v0.0.1
       - name: Package
         shell: powershell
         run: |
