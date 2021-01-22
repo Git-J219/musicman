@@ -21,7 +21,6 @@ jobs:
       - name: Package
         shell: powershell
         run: |
-          exit
           npm i
           npx electron-forge package --arch=x64 --platform=win32
           npx electron-forge package --arch=arm64 --platform=win32
@@ -32,6 +31,8 @@ jobs:
           compress-archive -destinationpath out\musicman-win32-x64.zip -path out\musicman-win32-x64
           compress-archive -destinationpath out\musicman-win32-arm64.zip -path out\musicman-win32-arm64
           compress-archive -destinationpath out\musicman-win32-ia32.zip -path out\musicman-win32-ia32
+          ls
+          ls *
       - uses: actions/upload-artifact@v2
         with:
           name: win32-x64
@@ -59,12 +60,12 @@ jobs:
           npx electron-forge package --arch=x64 --platform=linux
           npx electron-forge package --arch=arm64 --platform=linux
           npx electron-forge package --arch=armv7l --platform=linux
-          cp 3rdParty out\musicman-linux-x64 -r
-          cp 3rdParty out\musicman-linux-arm64 -r
-          cp 3rdParty out\musicman-linux-armv7l -r
-          zip -ryv out\musicman-linux-x64.zip out\musicman-linux-x64
-          zip -ryv out\musicman-linux-arm64.zip out\musicman-linux-arm64
-          zip -ryv out\musicman-linux-armv7l.zip out\musicman-linux-armv7l
+          cp 3rdParty out/musicman-linux-x64 -r
+          cp 3rdParty out/musicman-linux-arm64 -r
+          cp 3rdParty out/musicman-linux-armv7l -r
+          zip -ryv out/musicman-linux-x64.zip out/musicman-linux-x64
+          zip -ryv out/musicman-linux-arm64.zip out/musicman-linux-arm64
+          zip -ryv out/musicman-linux-armv7l.zip out/musicman-linux-armv7l
       - uses: actions/upload-artifact@v2
         with:
           name: linux-x64
@@ -90,15 +91,10 @@ jobs:
           npm i
           npx electron-forge package --arch=x64 --platform=darwin
           npx electron-forge package --arch=arm64 --platform=darwin
-          cp 3rdParty out\musicman-darwin-x64 -r
-          cp 3rdParty out\musicman-darwin-arm64 -r
-          zip -ryv out\musicman-darwin-x64.zip out\musicman-darwin-x64
-          zip -ryv out\musicman-darwin-arm64.zip out\musicman-darwin-arm64
-          echo -----
-          ls
-          echo -----
-          ls out
-          echo -----
+          cp 3rdParty out/musicman-darwin-x64 -r
+          cp 3rdParty out/musicman-darwin-arm64 -r
+          zip -ryv out/musicman-darwin-x64.zip out/musicman-darwin-x64
+          zip -ryv out/musicman-darwin-arm64.zip out/musicman-darwin-arm64
       - uses: actions/upload-artifact@v2
         with:
           name: darwin-x64
