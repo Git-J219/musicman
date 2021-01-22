@@ -14,7 +14,10 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: https://github.com/RemcoHalman/python-helloworld-action@v0.0.1
+      - uses: actions/checkout@v2.3.4
+      - uses: actions/setup-node@v2.1.4
+        with:
+          node-version: 14.15.3
       - name: Package
         shell: powershell
         run: |
