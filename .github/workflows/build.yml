@@ -1,0 +1,32 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Build
+
+# Controls when the action will run. 
+on: workflow_dispatch
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: Node.js Init
+        uses: actions/setup-node@v2.1.4
+        with:
+          node-version: 14.15.3
+      - name: Package
+        shell: powershell
+        run: |
+          npm i
+          npx electron-forge --arch=x64 --platform=linux
+          npx electron-forge --arch=arm64 --platform=linux
+          npx electron-forge --arch=armv7l --platform=linux
+          npx electron-forge --arch=x64 --platform=win32
+          npx electron-forge --arch=arm64 --platform=win32
+          npx electron-forge --arch=ia32 --platform=win32
