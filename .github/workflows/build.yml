@@ -8,9 +8,9 @@ on: workflow_dispatch
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  build-windows:
     # The type of runner that the job will run on
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -19,26 +19,85 @@ jobs:
         with:
           node-version: 14.15.3
       - name: Package
-        shell: powershell
+        shell: bash
         run: |
-          git clone https://github.com/Git-J219/musicman
-          cd musicman
+          npm i
+          npx electron-forge --arch=x64 --platform=win32
+          npx electron-forge --arch=arm64 --platform=win32
+          npx electron-forge --arch=ia32 --platform=win32
+          cp 3rdParty out\musicman-win32-x64 -r
+          cp 3rdParty out\musicman-win32-arm64 -r
+          cp 3rdParty out\musicman-win32-ia32 -r
+          zip -ryv out\musicman-win32-x64.zip out\musicman-win32-x64
+          zip -ryv out\musicman-win32-arm64.zip out\musicman-win32-arm64
+          zip -ryv out\musicman-win32-ia32.zip out\musicman-win32-ia32
+      - uses: actions/upload-artifact@v2
+        with:
+          name: win32-x64
+          path: ./out/musicman-win32-x64.zip
+      - uses: actions/upload-artifact@v2
+        with:
+          name: win32-arm64
+          path: ./out/musicman-win32-arm64.zip
+      - uses: actions/upload-artifact@v2
+        with:
+          name: win32-ia32
+          path: ./out/musicman-win32-ia32.zip
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - uses: actions/setup-node@v2.1.4
+        with:
+          node-version: 14.15.3
+      - name: Package
+        shell: bash
+        run: |
           npm i
           npx electron-forge --arch=x64 --platform=linux
           npx electron-forge --arch=arm64 --platform=linux
           npx electron-forge --arch=armv7l --platform=linux
-          npx electron-forge --arch=x64 --platform=win32
-          npx electron-forge --arch=arm64 --platform=win32
-          npx electron-forge --arch=ia32 --platform=win32
           cp 3rdParty out\musicman-linux-x64 -r
           cp 3rdParty out\musicman-linux-arm64 -r
           cp 3rdParty out\musicman-linux-armv7l -r
-          cp 3rdParty out\musicman-win32-x64 -r
-          cp 3rdParty out\musicman-win32-arm64 -r
-          cp 3rdParty out\musicman-win32-ia32 -r
-          create-archive -path out\musicman-linux-x64 -destinationpath out\musicman-linux-x64.zip
-          create-archive -path out\musicman-linux-arm64 -destinationpath out\musicman-linux-arm64.zip
-          create-archive -path out\musicman-linux-armv7l -destinationpath out\musicman-linux-armv7l.zip
-          create-archive -path out\musicman-win32-x64 -destinationpath out\musicman-win32-x64.zip
-          create-archive -path out\musicman-win32-arm64 -destinationpath out\musicman-win32-arm64.zip
-          create-archive -path out\musicman-win32-ia32 -destinationpath out\musicman-win32-ia32.zip
+          zip -ryv out\musicman-linux-x64.zip out\musicman-linux-x64
+          zip -ryv out\musicman-linux-arm64.zip out\musicman-linux-arm64
+          zip -ryv out\musicman-linux-armv7l.zip out\musicman-linux-armv7l
+      - uses: actions/upload-artifact@v2
+        with:
+          name: linux-x64
+          path: ./out/musicman-linux-x64.zip
+      - uses: actions/upload-artifact@v2
+        with:
+          name: linux-arm64
+          path: ./out/musicman-linux-arm64.zip
+      - uses: actions/upload-artifact@v2
+        with:
+          name: linux-armv7l
+          path: ./out/musicman-linux-armv7l.zip
+  build-macos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - uses: actions/setup-node@v2.1.4
+        with:
+          node-version: 14.15.3
+      - name: Package
+        shell: bash
+        run: |
+          npm i
+          npx electron-forge --arch=x64 --platform=darwin
+          npx electron-forge --arch=arm64 --platform=darwin
+          cp 3rdParty out\musicman-darwin-x64 -r
+          cp 3rdParty out\musicman-darwin-arm64 -r
+          zip -ryv out\musicman-darwin-x64.zip out\musicman-darwin-x64
+          zip -ryv out\musicman-darwin-arm64.zip out\musicman-darwin-arm64
+      - uses: actions/upload-artifact@v2
+        with:
+          name: darwin-x64
+          path: ./out/musicman-darwin-x64.zip
+      - uses: actions/upload-artifact@v2
+        with:
+          name: darwin-arm64
+          path: ./out/musicman-darwin-arm64.zip
+    
