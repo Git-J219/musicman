@@ -18,10 +18,11 @@ jobs:
         shell: powershell
         run: |
           git clone https://github.com/Git-J219/musicman
-          npm i
-          npx electron-forge --arch=x64 --platform=linux
-          npx electron-forge --arch=arm64 --platform=linux
-          npx electron-forge --arch=armv7l --platform=linux
-          npx electron-forge --arch=x64 --platform=win32
-          npx electron-forge --arch=arm64 --platform=win32
-          npx electron-forge --arch=ia32 --platform=win32
+          ls
+#          npm i
+#          npx electron-forge --arch=x64 --platform=linux
+#          npx electron-forge --arch=arm64 --platform=linux
+#          npx electron-forge --arch=armv7l --platform=linux
+#          npx electron-forge --arch=x64 --platform=win32
+#          npx electron-forge --arch=arm64 --platform=win32
+#          npx electron-forge --arch=ia32 --platform=win32
