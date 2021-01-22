@@ -22,9 +22,9 @@ jobs:
         shell: bash
         run: |
           npm i
-          npx electron-forge --arch=x64 --platform=win32
-          npx electron-forge --arch=arm64 --platform=win32
-          npx electron-forge --arch=ia32 --platform=win32
+          npx electron-forge package --arch=x64 --platform=win32
+          npx electron-forge package --arch=arm64 --platform=win32
+          npx electron-forge package --arch=ia32 --platform=win32
           cp 3rdParty out\musicman-win32-x64 -r
           cp 3rdParty out\musicman-win32-arm64 -r
           cp 3rdParty out\musicman-win32-ia32 -r
@@ -54,9 +54,9 @@ jobs:
         shell: bash
         run: |
           npm i
-          npx electron-forge --arch=x64 --platform=linux
-          npx electron-forge --arch=arm64 --platform=linux
-          npx electron-forge --arch=armv7l --platform=linux
+          npx electron-forge package --arch=x64 --platform=linux
+          npx electron-forge package --arch=arm64 --platform=linux
+          npx electron-forge package --arch=armv7l --platform=linux
           cp 3rdParty out\musicman-linux-x64 -r
           cp 3rdParty out\musicman-linux-arm64 -r
           cp 3rdParty out\musicman-linux-armv7l -r
@@ -86,8 +86,8 @@ jobs:
         shell: bash
         run: |
           npm i
-          npx electron-forge --arch=x64 --platform=darwin
-          npx electron-forge --arch=arm64 --platform=darwin
+          npx electron-forge package --arch=x64 --platform=darwin
+          npx electron-forge package --arch=arm64 --platform=darwin
           cp 3rdParty out\musicman-darwin-x64 -r
           cp 3rdParty out\musicman-darwin-arm64 -r
           zip -ryv out\musicman-darwin-x64.zip out\musicman-darwin-x64
