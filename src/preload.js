@@ -1,43 +1,44 @@
-const { contextBridge, ipcRenderer, } = require('electron');
-const url = require('url');
-const mm = require('music-metadata');
 const fs = require('fs');
 const os = require('os');
+const url = require('url');
+
+const { contextBridge, ipcRenderer, } = require('electron');
+
+const mm = require('music-metadata');
 const path = require('path');
 const log = require('electron-log');
+
 var playlist = [];
 var playlistI = 0;
 log.catchErrors();
 
-// log //
-contextBridge.exposeInMainWorld('log', log.functions);
 // Window Things //
 contextBridge.exposeInMainWorld('windowControl', {
-    maximize: () => { ipcRenderer.send('windowMsg', 0) },
-    minimize: () => { ipcRenderer.send('windowMsg', 1) },
-    close: () => { ipcRenderer.send('windowMsg', 2) }
+    maximize: () => { ipcRenderer.send('windowMsg', 0); },
+    minimize: () => { ipcRenderer.send('windowMsg', 1); },
+    close: () => { ipcRenderer.send('windowMsg', 2); }
 });
-ipcRenderer.on("windowMaximize", (event, arg) => {
+ipcRenderer.on('windowMaximize', (event, arg) => {
     if (arg) {
-        document.querySelector("#app_max_unmaximize").style.display = "block";
-        document.querySelector("#app_max_maximize").style.display = "none";
+        document.querySelector('#app_max_unmaximize').style.display = 'block';
+        document.querySelector('#app_max_maximize').style.display = 'none';
     } else {
-        document.querySelector("#app_max_unmaximize").style.display = "none";
-        document.querySelector("#app_max_maximize").style.display = "block";
+        document.querySelector('#app_max_unmaximize').style.display = 'none';
+        document.querySelector('#app_max_maximize').style.display = 'block';
     }
 });
 // File //
-const fname = "mm_musicman_coverart_temp";
+const fname = 'mm_musicman_coverart_temp';
 var picPath;
 contextBridge.exposeInMainWorld('file', {
     exportPl: () => {
-        ipcRenderer.send("playlist-save", JSON.stringify(playlist));
+        ipcRenderer.send('playlist-save', JSON.stringify(playlist));
     },
     importPl: () => {
-        ipcRenderer.send("playlist-load");
+        ipcRenderer.send('playlist-load');
     },
     remPl: (i) => {
-        var info = -1;
+        let info = -1;
         playlist.splice(i, 1);
         if (playlistI > i) {
             playlistI--;
@@ -53,7 +54,7 @@ contextBridge.exposeInMainWorld('file', {
         return info;
     },
     savePath: () => {
-        var ret = ipcRenderer.sendSync('fileLoad');
+        let ret = ipcRenderer.sendSync('fileLoad');
         if (ret && ret.length) {
             playlist.push(...ret);
             return true;
@@ -78,7 +79,7 @@ contextBridge.exposeInMainWorld('file', {
     },
     getTitle: () => {
         if (path.parse(playlist[playlistI]).ext == '.weba') {
-            return Promise.resolve({ common: {} })
+            return Promise.resolve({ common: {} });
         }
         let mmmmmmmmmmmmmmmmmmmm = mm.parseFile(playlist[playlistI]);
         picPath = false;
@@ -88,7 +89,7 @@ contextBridge.exposeInMainWorld('file', {
                 picPath = true;
             }
         });
-        return mmmmmmmmmmmmmmmmmmmm
+        return mmmmmmmmmmmmmmmmmmmm;
     },
     getPicPath: () => {
         if (picPath) {
@@ -110,10 +111,10 @@ contextBridge.exposeInMainWorld('file', {
         }
     },
     getTitles: async function() {
-        var titles = [];
+        let titles = [];
         for (let i = 0; i < playlist.length; i++) {
             const p = playlist[i];
-            var title = "";
+            let title = '';
             if (path.parse(p).ext === '.weba') {
                 title = path.parse(p).name;
             } else {
@@ -129,16 +130,16 @@ contextBridge.exposeInMainWorld('file', {
 ipcRenderer.on('file-open-request', (_e, arg) => {
     playlist.push(arg);
     playlistI = playlist.length - 1;
-    document.querySelector("#lcfp").click();
+    document.querySelector('#lcfp').click();
 
-    document.querySelector("#ltfp").click();
+    document.querySelector('#ltfp').click();
 });
 ipcRenderer.on('playlist-open-request', (e, a) => {
     playlist = JSON.parse(a);
     playlistI = 0;
-    document.querySelector("#lcfp").click();
+    document.querySelector('#lcfp').click();
 
-    document.querySelector("#ltfp").click();
+    document.querySelector('#ltfp').click();
 });
 // MOS //
 contextBridge.exposeInMainWorld('mos', {
@@ -154,7 +155,7 @@ ipcRenderer.on('open-requested', (e, a) => {
     a ? document.querySelector('#menuOpenInstant').click() : document.querySelector('#menuOpen').click();
 });
 ipcRenderer.on('playlist-control', (e, exporting) => {
-    exporting ? document.querySelector("#playlistExport").click() : document.querySelector("#playlistImport").click();
+    exporting ? document.querySelector('#playlistExport').click() : document.querySelector('#playlistImport').click();
 });
 // InitCompleted //
 contextBridge.exposeInMainWorld('init', {
@@ -164,6 +165,6 @@ contextBridge.exposeInMainWorld('init', {
 });
 
 
-ipcRenderer.on("focused", (e, a) => {
-    a ? document.body.classList.remove("winactive") : document.body.classList.add("winactive");
+ipcRenderer.on('focused', (e, a) => {
+    a ? document.body.classList.remove('winactive') : document.body.classList.add('winactive');
 });
