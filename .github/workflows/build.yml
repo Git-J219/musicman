@@ -3,7 +3,10 @@
 name: Build
 
 # Controls when the action will run. 
-on: workflow_dispatch
+on: 
+  push:
+    branches: main
+    tags: 'v*'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -18,11 +21,26 @@ jobs:
         shell: powershell
         run: |
           git clone https://github.com/Git-J219/musicman
-          ls
-#          npm i
-#          npx electron-forge --arch=x64 --platform=linux
-#          npx electron-forge --arch=arm64 --platform=linux
-#          npx electron-forge --arch=armv7l --platform=linux
-#          npx electron-forge --arch=x64 --platform=win32
-#          npx electron-forge --arch=arm64 --platform=win32
-#          npx electron-forge --arch=ia32 --platform=win32
+          cd musicman
+          npm i
+          npx electron-forge --arch=x64 --platform=linux
+          npx electron-forge --arch=arm64 --platform=linux
+          npx electron-forge --arch=armv7l --platform=linux
+          npx electron-forge --arch=x64 --platform=win32
+          npx electron-forge --arch=arm64 --platform=win32
+          npx electron-forge --arch=ia32 --platform=win32
+          cp 3rdParty out\musicman-linux-x64 -r
+          cp 3rdParty out\musicman-linux-arm64 -r
+          cp 3rdParty out\musicman-linux-armv7l -r
+          cp 3rdParty out\musicman-win32-x64 -r
+          cp 3rdParty out\musicman-win32-arm64 -r
+          cp 3rdParty out\musicman-win32-ia32 -r
+          create-archive -path out\musicman-linux-x64 -destinationpath out\musicman-linux-x64.zip
+          create-archive -path out\musicman-linux-arm64 -destinationpath out\musicman-linux-arm64.zip
+          create-archive -path out\musicman-linux-armv7l -destinationpath out\musicman-linux-armv7l.zip
+          create-archive -path out\musicman-win32-x64 -destinationpath out\musicman-win32-x64.zip
+          create-archive -path out\musicman-win32-arm64 -destinationpath out\musicman-win32-arm64.zip
+          create-archive -path out\musicman-win32-ia32 -destinationpath out\musicman-win32-ia32.zip
+- name: Get the version
+  id: get_version
+  run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
