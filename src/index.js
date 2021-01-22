@@ -168,17 +168,19 @@ function secInt(arg) {
         mainWindow.restore();
     }
     mainWindow.focus();
-    if (loading.isDestroyed()) {
-        arg.forEach(element => {
-            if (element !== arg[0] && element[0] !== '-') {
+    arg.forEach(element => {
+        if (element !== arg[0] && element[0] !== '-') {
+            if (loading.isDestroyed()) {
                 if (path.parse(element).ext === '.mmpl') {
                     mainWindow.webContents.send('playlist-open-request', fs.readFileSync(element, 'utf8'));
                     return;
                 }
                 mainWindow.webContents.send('file-open-request', element);
+            } else {
+                openQueue.push(element);
             }
-        });
-    }
+        }
+    });
 }
 app.on('second-instance', (e, arg) => {
     secInt(arg);
@@ -253,6 +255,7 @@ ipcMain.on('init-completed', () => {
             mainWindow.webContents.send('file-open-request', element);
         }
     });
+    openQueue = [];
     if (menuCommand !== undefined) {
         switch (menuCommand) {
         case 0:
