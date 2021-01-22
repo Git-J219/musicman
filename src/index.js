@@ -47,7 +47,7 @@ const appleMenu = [{
         label: 'Öffnen',
         accelerator: 'CmdOrCtrl+O',
         click: () => {
-            if (loading) {
+            if (loading && !loading.isDestroyed()) {
                 menuCommand = 0;
             } else if (BrowserWindow.getAllWindows().length === 0) {
                 menuCommand = 0;
@@ -61,7 +61,7 @@ const appleMenu = [{
         label: 'Zur Playlist hinzufügen',
         accelerator: 'CmdOrCtrl+Shift+O',
         click: () => {
-            if (loading) {
+            if (loading && !loading.isDestroyed()) {
                 menuCommand = 1;
             } else if (BrowserWindow.getAllWindows().length === 0) {
                 menuCommand = 1;
@@ -75,7 +75,7 @@ const appleMenu = [{
         label: 'Playlist exportieren',
         accelerator: 'CmdOrCtrl+E',
         click: () => {
-            if (!(loading || BrowserWindow.getAllWindows.length === 0)) {
+            if (!((loading && !loading.isDestroyed()) || BrowserWindow.getAllWindows.length === 0)) {
                 mainWindow.webContents.send('playlist-control', true);
             }
         }
@@ -84,7 +84,7 @@ const appleMenu = [{
         label: 'Playlist importieren',
         accelerator: 'CmdOrCtrl+I',
         click: () => {
-            if (loading) {
+            if (loading && !loading.isDestroyed()) {
                 menuCommand = 2;
             } else if (BrowserWindow.getAllWindows().length === 0) {
                 menuCommand = 2;
@@ -151,7 +151,6 @@ const createWindow = () => {
     });
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, 'index.html'));
-    mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
