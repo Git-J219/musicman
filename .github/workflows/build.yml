@@ -21,6 +21,7 @@ jobs:
       - name: Package
         shell: powershell
         run: |
+          exit
           npm i
           npx electron-forge package --arch=x64 --platform=win32
           npx electron-forge package --arch=arm64 --platform=win32
@@ -53,6 +54,7 @@ jobs:
       - name: Package
         shell: bash
         run: |
+          exit
           npm i
           npx electron-forge package --arch=x64 --platform=linux
           npx electron-forge package --arch=arm64 --platform=linux
@@ -92,6 +94,8 @@ jobs:
           cp 3rdParty out\musicman-darwin-arm64 -r
           zip -ryv out\musicman-darwin-x64.zip out\musicman-darwin-x64
           zip -ryv out\musicman-darwin-arm64.zip out\musicman-darwin-arm64
+          ls
+          ls out
       - uses: actions/upload-artifact@v2
         with:
           name: darwin-x64
