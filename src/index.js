@@ -189,7 +189,7 @@ app.on('open-file', (e, a) => {
     log.debug(a);
     if (loading) {
         if (BrowserWindow.getAllWindows().length === 0) {
-            openQueue.push('a');
+            openQueue.push(a);
             createWindow();
         } else {
             secInt(['-', a]);
