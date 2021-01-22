@@ -102,4 +102,12 @@ jobs:
         with:
           name: darwin-arm64
           path: out/musicman-darwin-arm64.zip
-    
+  release:
+    runs-on: ubuntu-latest
+    needs: [build-windows, build-macos, build-linux]
+    steps:
+    - uses: actions/download-artifact@v2
+    - shell: bash
+      run: |
+        ls
+        ls *
