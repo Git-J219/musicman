@@ -164,6 +164,9 @@ app.on('ready', () => {
 });
 
 function secInt(arg) {
+    if (macOsOpen) {
+        return;
+    }
     if (mainWindow.isMinimized()) {
         mainWindow.restore();
     }
@@ -189,8 +192,8 @@ app.on('open-file', (e, a) => {
     e.preventDefault();
     if (!macOsOpen) {
         openQueue = [];
+        macOsOpen = true;
     }
-    macOsOpen = true;
     log.debug(a);
     if (loading) {
         if (BrowserWindow.getAllWindows().length === 0) {
