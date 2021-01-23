@@ -1,5 +1,8 @@
 /* global windowControl:false, file:false, mos:false, init:false */
 mos.mos();
+if (document.body.classList.contains('mos')) {
+    document.querySelector('#title').insertBefore(document.querySelector('#load'));
+}
 [...document.querySelectorAll('.dropdown a')].forEach((mentos) => {
     mentos.addEventListener('click', function() {
         const drops = [...document.querySelectorAll('.dropdown-content')];
