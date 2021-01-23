@@ -7,6 +7,7 @@ const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const log = require('electron-log');
+log.catchErrors();
 
 const appleMenu = [{
     label: 'Musicman',
@@ -160,13 +161,12 @@ const createWindow = () => {
 app.on('ready', () => Menu.setApplicationMenu(Menu.buildFromTemplate(appleMenu)));
 app.on('ready', createWindow);
 app.on('ready', () => {
-    openQueue = process.argv.slice(1);
+    if (!macOsOpen) {
+        openQueue = process.argv.slice(1);
+    }
 });
 
 function secInt(arg) {
-    if (macOsOpen) {
-        return;
-    }
     if (mainWindow.isMinimized()) {
         mainWindow.restore();
     }
@@ -194,7 +194,6 @@ app.on('open-file', (e, a) => {
         openQueue = [];
         macOsOpen = true;
     }
-    log.debug(a);
     if (loading) {
         if (BrowserWindow.getAllWindows().length === 0) {
             openQueue.push(a);
