@@ -1,7 +1,7 @@
 {
     "name": "musicman",
     "productName": "musicman",
-    "version": "2.1.11",
+    "version": "2.1.10",
     "description": "My Electron application description",
     "main": "src/index.js",
     "scripts": {
@@ -15,7 +15,7 @@
                 "icon": "src/icons/icon",
                 "ignore": [
                     ".*3rdParty.*",
-                    ".*package.ps1.*"
+                    ".*createRelease.ps1.*"
                 ]
             },
             "makers": [
