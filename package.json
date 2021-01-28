@@ -18,8 +18,7 @@
                     "createRelease\\.ps1",
                     "\\..*",
                     "ignore.*",
-                    ".*\\.md",
-                    "LICENSE"
+                    ".*\\.md"
                 ]
             },
             "makers": [
