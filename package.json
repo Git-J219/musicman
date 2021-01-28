@@ -14,8 +14,11 @@
             "packagerConfig": {
                 "icon": "src/icons/icon",
                 "ignore": [
-                    ".*3rdParty.*",
-                    ".*createRelease.ps1.*"
+                    "3rdParty.*",
+                    "createRelease.ps1",
+                    "\..*",
+                    "ignore.*",
+                    "README.md"
                 ]
             },
             "makers": [
