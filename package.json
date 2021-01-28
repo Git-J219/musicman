@@ -15,10 +15,10 @@
                 "icon": "src/icons/icon",
                 "ignore": [
                     "3rdParty.*",
-                    "createRelease\.ps1",
-                    "\..*",
+                    "createRelease\\.ps1",
+                    "\\..*",
                     "ignore.*",
-                    ".*\.md",
+                    ".*\\.md",
                     "LICENSE"
                 ]
             },
