@@ -23,6 +23,7 @@ jobs:
       - name: Package
         shell: powershell
         run: |
+          ls
           npm i
           npx electron-forge package --arch=x64 --platform=win32
           npx electron-forge package --arch=arm64 --platform=win32
@@ -57,6 +58,7 @@ jobs:
       - name: Package
         shell: bash
         run: |
+          ls
           npm i
           npx electron-forge package --arch=x64 --platform=linux
           npx electron-forge package --arch=arm64 --platform=linux
@@ -91,6 +93,7 @@ jobs:
       - name: Package
         shell: bash
         run: |
+          ls
           npm i
           npx electron-forge package --arch=x64 --platform=darwin
           npx electron-forge package --arch=arm64 --platform=darwin
