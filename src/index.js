@@ -114,12 +114,13 @@ const createWindow = () => {
         frame: false,
         webPreferences: {
             contextIsolation: true,
-            preload: path.join(__dirname, 'preload.js')
+            preload: path.join(__dirname, 'preload.js'),
+            backgroundThrottling: false
         },
         icon: path.join(__dirname, 'icons', 'icon.png'),
         show: false
     };
-    loading = new BrowserWindow({ transparent: true, width: 580, height: 140, frame: false, webPreferences: { contextIsolation: true }, show: false });
+    loading = new BrowserWindow({ transparent: true, width: 580, height: 140, frame: false, webPreferences: { backgroundThrottling: false, contextIsolation: true }, show: false });
     loading.setMinimumSize(580, 140);
     loading.setMaximumSize(580, 140);
     loading.setAlwaysOnTop(true);
