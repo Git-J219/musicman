@@ -35,7 +35,7 @@ function loadTitles() {
             const item = document.createElement('div');
             item.setAttribute('data-pos', i);
             item.innerText = title;
-            if (info[1] === i) {
+            if (info[1] == i) { //eslint-disable-line
                 item.style.backgroundColor = '#777';
             }
             playlist.appendChild(item);
