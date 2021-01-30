@@ -15,8 +15,7 @@
                 "icon": "src/icons/icon",
                 "ignore": [
                     "3rdParty.*",
-                    "createRelease.ps1",
-                    "ignore"
+                    "createRelease.ps1"
                 ]
             },
             "makers": [
