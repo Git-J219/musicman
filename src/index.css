@@ -1,3 +1,7 @@
+#ltfp, #lcfp {
+    display: none;
+}
+
 #app_title {
     height: 32px;
     z-index: 3001;
@@ -21,15 +25,16 @@
     font-size: 100%;
     vertical-align: baseline;
     background-color: rgb(32, 34, 37);
+    position: absolute;
+    right: 0;
+    left: 0;
 }
 
 .highlight {
     background-color: rgb(185, 187, 190);
 }
 
-#app_max,
-#app_min,
-#app_close {
+#app_max, #app_min, #app_close {
     user-select: none;
     line-height: 1;
     -webkit-app-region: no-drag;
@@ -39,14 +44,11 @@
     padding: 10px
 }
 
-.winactive #app_max,
-.winactive #app_min,
-.winactive #app_close {
+.winactive #app_max, .winactive #app_min, .winactive #app_close {
     color: rgb(85, 87, 90);
 }
 
-#app_max:hover,
-#app_min:hover {
+#app_max:hover, #app_min:hover {
     background-color: rgba(79, 84, 92, 0.16);
     color: rgb(255, 255, 255);
 }
@@ -103,10 +105,6 @@ textarea {
     font-weight: 300;
     font-size: larger;
     background: transparent;
-}
-
-body {
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 .navbar {
@@ -209,6 +207,11 @@ td input[type=range] {
     width: 100%;
 }
 
+table.a {
+    height: 220px;
+    width: calc(100% - 20px);
+}
+
 table.a td:nth-child(1) {
     width: 23em;
 }
@@ -277,32 +280,15 @@ table {
     width: fit-content;
 }
 
-#modal-btn_com:hover,
-#play:hover,
-#resetCom2:hover,
-#reset:hover,
-#resetCom:hover,
-#resetPan:hover,
-#resetVol:hover,
-#resetSpeed:hover {
+#modal-btn_com:hover, #play:hover, #resetCom2:hover, #reset:hover, #resetCom:hover, #resetPan:hover, #resetVol:hover, #resetSpeed:hover {
     background-color: rgba(79, 84, 92);
 }
 
-#resetCom2 svg,
-#reset svg,
-#resetCom svg,
-#resetPan svg,
-#resetVol svg,
-#resetSpeed svg {
+#resetCom2 svg, #reset svg, #resetCom svg, #resetPan svg, #resetVol svg, #resetSpeed svg {
     color: rgb(54, 57, 63);
 }
 
-#resetCom2:hover svg,
-#reset:hover svg,
-#resetCom:hover svg,
-#resetPan:hover svg,
-#resetVol:hover svg,
-#resetSpeed:hover svg {
+#resetCom2:hover svg, #reset:hover svg, #resetCom:hover svg, #resetPan:hover svg, #resetVol:hover svg, #resetSpeed:hover svg {
     color: rgb(79, 84, 92);
 }
 
@@ -336,8 +322,7 @@ table {
     padding: 10px;
 }
 
-#loopingStateWrapper,
-#loopingState {
+#loopingStateWrapper, #loopingState {
     padding: 5px;
 }
 
@@ -351,4 +336,43 @@ table {
 
 .winactive #app_title {
     color: rgb(155, 155, 155);
+}
+
+#content {
+    position: absolute;
+    top: 32px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+#compMoreSettings {
+    width: 10%;
+}
+
+#img {
+    width: 100%;
+    height: 75%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#imgP {
+    height: 75%;
+    display: none;
+}
+
+#imgWrapper {
+    height: calc(100% - (220px + 20px));
+    padding: 0;
+    margin: 0;
+}
+
+#playlistOuter {
+    height: 25%
+}
+
+#playlist {
+    height: 100%;
 }

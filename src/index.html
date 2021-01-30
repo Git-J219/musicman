@@ -12,8 +12,8 @@
 
 <body>
     <div id="app_title">
-        <div id="ltfp" style="display:none;">Diese Message sollte eigentlich garnicht erscheinen</div>
-        <div id="lcfp" style="display:none;">SOnO&#xE1;O O&#xBB;O&#xFC;O OLOO &#x152;O OnOoOOJ</div>
+        <div id="ltfp">Diese Message sollte eigentlich garnicht erscheinen</div>
+        <div id="lcfp">SOnO&#xE1;O O&#xBB;O&#xFC;O OLOO &#x152;O OnOoOOJ</div>
         <div class="hide-mos" id="app_close" aria-label="Schließen" tabindex="-1" role="button">
             <div class="codicon codicon-chrome-close"></div>
         </div>
@@ -37,155 +37,162 @@
         <img style="display:none;" width="56" src="loading/loading.svg" id="load">
     </div>
 
+    <div id="content">
+        <table class="a">
+            <tbody>
+                <tr>
+                    <td>
+                        <button id="play">
+                            <svg id="pausing" viewBox="0 0 24 24" width="24" height="24">
+                                <path d="M8 5v14l11-7z" fill="currentcolor" />
+                                <path d="M0 0h24v24H0z" fill="none" />
+                            </svg>
+                            <svg style="display:none;" id="playing" viewBox="0 0 24 24" width="24" height="24">
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentcolor" />
+                                <path d="M0 0h24v24H0z" fill="none" />
+                            </svg>
+                        </button>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <button id="reset">
+                            <svg viewBox="0 0 100 100" width="24" height="24">
+                                <ellipse cx="50" cy="50" rx="35" ry="35" fill="transparent" stroke="#fff"
+                                    stroke-width="10">
+                                </ellipse>
+                                <path d="M 0 0 100 100" stroke="currentcolor" stroke-width="50"></path>
+                                <polygon points="50,0 35,20 57,32" fill="#fff"></polygon>
+                                <polygon points="50,100 65,80 43,68" fill="#fff"></polygon>
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td id="loopingStateWrapper">
+                        <div id="loopingState">
 
-    <table class="a">
-        <tbody>
-            <tr>
-                <td>
-                    <button id="play">
-    <svg id="pausing" viewBox="0 0 24 24" width="24" height="24">
-        <path d="M8 5v14l11-7z" fill="currentcolor" />
-        <path d="M0 0h24v24H0z" fill="none" />
-    </svg>
-    <svg style="display:none;" id="playing" viewBox="0 0 24 24" width="24" height="24">
-        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentcolor" />
-        <path d="M0 0h24v24H0z" fill="none" />
-    </svg>
-</button>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                    <button id="reset">
-                        <svg viewBox="0 0 100 100" width="24" height="24">
-                            <ellipse cx="50" cy="50" rx="35" ry="35" fill="transparent" stroke="#fff" stroke-width="10">
-                            </ellipse>
-                            <path d="M 0 0 100 100" stroke="currentcolor" stroke-width="50"></path>
-                            <polygon points="50,0 35,20 57,32" fill="#fff"></polygon>
-                            <polygon points="50,100 65,80 43,68" fill="#fff"></polygon>
-                        </svg>
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                </td>
-                <td id="loopingStateWrapper">
-                    <div id="loopingState">
-
-                    </div>
-                </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>
-                </td>
-                <td>
-                    <div class="label">
-                        <input type="checkbox" id="comp" name="comp" checked>
-                        <label for="comp">
-                            Kompressor aktivieren
-                        </label>
-                        <div style="width:10%;"></div><button id="modal-btn_com">Mehr Einstellungen...</button>
-                    </div>
-                </td>
-                <td>
-                </td>
-                <td>
-                    <button id="resetCom">
-                        <svg viewBox="0 0 100 100" width="24" height="24">
-                            <ellipse cx="50" cy="50" rx="35" ry="35" fill="transparent" stroke="#fff" stroke-width="10">
-                            </ellipse>
-                            <path d="M 0 0 100 100" stroke="currentcolor" stroke-width="50"></path>
-                            <polygon points="50,0 35,20 57,32" fill="#fff"></polygon>
-                            <polygon points="50,100 65,80 43,68" fill="#fff"></polygon>
-                        </svg>
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span id="panWrap">Stereoverschiebung:</span>
-                </td>
-                <td>
-                    <input type="range" id="pan" min="-1" max="1" value="0" step="0.01">
-                </td>
-                <td>
-                    <span style="display:none;" id="panTrue"><span id="panAmount"></span>% nach <span id="panDir"></span></span><span id="panFalse">0%</span> verschoben
-                </td>
-                <td>
-                    <button id="resetPan">
-                        <svg viewBox="0 0 100 100" width="24" height="24">
-                            <ellipse cx="50" cy="50" rx="35" ry="35" fill="transparent" stroke="#fff" stroke-width="10">
-                            </ellipse>
-                            <path d="M 0 0 100 100" stroke="currentcolor" stroke-width="50"></path>
-                            <polygon points="50,0 35,20 57,32" fill="#fff"></polygon>
-                            <polygon points="50,100 65,80 43,68" fill="#fff"></polygon>
-                        </svg>
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <span id="volWrap">Lautstärke:</span>
-                </td>
-                <td>
-                    <input type="range" id="vol" min="0" max="2" value="1" step="0.01">
-                </td>
-                <td>
-                    <span id="volLabel"></span>%
-                </td>
-                <td>
-                    <button id="resetVol">
-                        <svg viewBox="0 0 100 100" width="24" height="24">
-                            <ellipse cx="50" cy="50" rx="35" ry="35" fill="transparent" stroke="#fff" stroke-width="10">
-                            </ellipse>
-                            <path d="M 0 0 100 100" stroke="currentcolor" stroke-width="50"></path>
-                            <polygon points="50,0 35,20 57,32" fill="#fff"></polygon>
-                            <polygon points="50,100 65,80 43,68" fill="#fff"></polygon>
-                        </svg>
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td><span id="speedWrap">Geschwindigkeit:</span>
-                </td>
-                <td><input type="range" id="speed" min="0.07" max="5" value="1" step="0.01">
-                </td>
-                <td><span id="speedVal"></span>%
-                </td>
-                <td>
-                    <button id="resetSpeed">
-                        <svg viewBox="0 0 100 100" width="24" height="24">
-                            <ellipse cx="50" cy="50" rx="35" ry="35" fill="transparent" stroke="#fff" stroke-width="10">
-                            </ellipse>
-                            <path d="M 0 0 100 100" stroke="currentcolor" stroke-width="50"></path>
-                            <polygon points="50,0 35,20 57,32" fill="#fff"></polygon>
-                            <polygon points="50,100 65,80 43,68" fill="#fff"></polygon>
-                        </svg>
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td><span id="posWrap">Wird <span id="notplaying">nicht</span> abgespielt:</span>
-                </td>
-                <td><input type="range" id="pos" value="0" min="0" max="0" step="1">
-                </td>
-                <td><span id="playedAll">00:00:00</span>
-                </td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
-    <audio autoplay src="about:blank"></audio>
-    <div style="height:100%;padding:0;margin:0;">
-        <div id="img" style="width:100%;height:75%;background-size: contain;background-repeat: no-repeat;background-position: center;">
-        </div>
-        <div id="imgP" style="height:75%;display:none;"></div>
-        <div id="playlistOuter" style="height:25%">
-            <div id="playlist" style="height:100%;"></div>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <div class="label">
+                            <input type="checkbox" id="comp" name="comp" checked>
+                            <label for="comp">
+                                Kompressor aktivieren
+                            </label>
+                            <div id="compMoreSettings"></div><button id="modal-btn_com">Mehr Einstellungen...</button>
+                        </div>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <button id="resetCom">
+                            <svg viewBox="0 0 100 100" width="24" height="24">
+                                <ellipse cx="50" cy="50" rx="35" ry="35" fill="transparent" stroke="#fff"
+                                    stroke-width="10">
+                                </ellipse>
+                                <path d="M 0 0 100 100" stroke="currentcolor" stroke-width="50"></path>
+                                <polygon points="50,0 35,20 57,32" fill="#fff"></polygon>
+                                <polygon points="50,100 65,80 43,68" fill="#fff"></polygon>
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span id="panWrap">Stereoverschiebung:</span>
+                    </td>
+                    <td>
+                        <input type="range" id="pan" min="-1" max="1" value="0" step="0.01">
+                    </td>
+                    <td>
+                        <span style="display:none;" id="panTrue"><span id="panAmount"></span>% nach <span
+                                id="panDir"></span></span><span id="panFalse">0%</span> verschoben
+                    </td>
+                    <td>
+                        <button id="resetPan">
+                            <svg viewBox="0 0 100 100" width="24" height="24">
+                                <ellipse cx="50" cy="50" rx="35" ry="35" fill="transparent" stroke="#fff"
+                                    stroke-width="10">
+                                </ellipse>
+                                <path d="M 0 0 100 100" stroke="currentcolor" stroke-width="50"></path>
+                                <polygon points="50,0 35,20 57,32" fill="#fff"></polygon>
+                                <polygon points="50,100 65,80 43,68" fill="#fff"></polygon>
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span id="volWrap">Lautstärke:</span>
+                    </td>
+                    <td>
+                        <input type="range" id="vol" min="0" max="2" value="1" step="0.01">
+                    </td>
+                    <td>
+                        <span id="volLabel"></span>%
+                    </td>
+                    <td>
+                        <button id="resetVol">
+                            <svg viewBox="0 0 100 100" width="24" height="24">
+                                <ellipse cx="50" cy="50" rx="35" ry="35" fill="transparent" stroke="#fff"
+                                    stroke-width="10">
+                                </ellipse>
+                                <path d="M 0 0 100 100" stroke="currentcolor" stroke-width="50"></path>
+                                <polygon points="50,0 35,20 57,32" fill="#fff"></polygon>
+                                <polygon points="50,100 65,80 43,68" fill="#fff"></polygon>
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span id="speedWrap">Geschwindigkeit:</span>
+                    </td>
+                    <td><input type="range" id="speed" min="0.07" max="5" value="1" step="0.01">
+                    </td>
+                    <td><span id="speedVal"></span>%
+                    </td>
+                    <td>
+                        <button id="resetSpeed">
+                            <svg viewBox="0 0 100 100" width="24" height="24">
+                                <ellipse cx="50" cy="50" rx="35" ry="35" fill="transparent" stroke="#fff"
+                                    stroke-width="10">
+                                </ellipse>
+                                <path d="M 0 0 100 100" stroke="currentcolor" stroke-width="50"></path>
+                                <polygon points="50,0 35,20 57,32" fill="#fff"></polygon>
+                                <polygon points="50,100 65,80 43,68" fill="#fff"></polygon>
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span id="posWrap">Wird <span id="notplaying">nicht</span> abgespielt:</span>
+                    </td>
+                    <td><input type="range" id="pos" value="0" min="0" max="0" step="1">
+                    </td>
+                    <td><span id="playedAll">00:00:00</span>
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <audio autoplay src="about:blank"></audio>
+        <div id="imgWrapper">
+            <div id="img">
+            </div>
+            <div id="imgP"></div>
+            <div id="playlistOuter">
+                <div id="playlist"></div>
+            </div>
         </div>
     </div>
     <div class="modal_com">
