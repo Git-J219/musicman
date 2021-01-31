@@ -7,6 +7,7 @@
     "scripts": {
         "start": "electron-forge start"
     },
+    "author": "Git-J219",
     "keywords": [],
     "license": "MIT",
     "config": {
@@ -16,7 +17,8 @@
                 "ignore": [
                     "3rdParty.*",
                     "createRelease.ps1"
-                ]
+                ],
+                "appCopyright": "Copyright (c) 2021 Git-J219, All rights reserved"
             },
             "makers": [
                 {
