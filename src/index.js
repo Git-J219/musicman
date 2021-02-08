@@ -112,6 +112,9 @@ if (!app.requestSingleInstanceLock()) {
 const createWindow = () => {
     miniplayer = new BrowserWindow({ width: 330, height: 85, frame: false, x: 0, y: 0, webPreferences: { contextIsolation: true, preload: path.join(__dirname, 'miniplayer', 'miniplayerpl.js') }, skipTaskbar: true, alwaysOnTop: true, closable: false, minimizable: false, maximizable: false, resizable: false, show: false });
     miniplayer.loadFile(path.join(__dirname, 'miniplayer', 'miniplayer.html'));
+    miniplayer.on('close', (e) => {
+        e.preventDefault();
+    });
     // Create the browser window.
     const info = {
         width: 800,
