@@ -12,6 +12,8 @@ let playlist = [];
 let playlistI = 0;
 let picPath;
 
+let miniplayerId;
+
 log.catchErrors();
 
 // Window Things //
@@ -161,6 +163,32 @@ contextBridge.exposeInMainWorld('init', {
     }
 });
 
+ipcRenderer.on('miniplayer', (_, id) => {
+    miniplayerId = id;
+});
+
 ipcRenderer.on('focused', (e, a) => {
     a ? document.body.classList.remove('winactive') : document.body.classList.add('winactive');
+});
+
+ipcRenderer.on('miniplayerclick', () => {
+    document.querySelector('#play').click();
+});
+
+contextBridge.exposeInMainWorld('miniplayer', {
+    title: (title) => {
+        ipcRenderer.sendTo(miniplayerId, 'title', title);
+    },
+    length: (length) => {
+        ipcRenderer.sendTo(miniplayerId, 'length', length);
+    },
+    time: (time) => {
+        ipcRenderer.sendTo(miniplayerId, 'time', time);
+    },
+    play: (playing) => {
+        ipcRenderer.sendTo(miniplayerId, 'play', playing);
+    },
+    clear: () => {
+        ipcRenderer.sendTo(miniplayerId, 'clear');
+    }
 });

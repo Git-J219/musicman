@@ -1,8 +1,10 @@
 let mainWindow;
 let loading;
+let miniplayer;
 let menuCommand;
 let openQueue = [];
 let macOsOpen = false;
+let dialogOpen = false;
 const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const fs = require('fs');
 const path = require('path');
@@ -107,6 +109,8 @@ if (!app.requestSingleInstanceLock()) {
     app.quit();
 }
 const createWindow = () => {
+    miniplayer = new BrowserWindow({ width: 330, height: 85, frame: false, x: 0, y: 0, webPreferences: { contextIsolation: true, preload: path.join(__dirname, 'miniplayer', 'miniplayerpl.js') }, skipTaskbar: true, alwaysOnTop: true, closable: false, minimizable: false, maximizable: false, resizable: false, show: false });
+    miniplayer.loadFile(path.join(__dirname, 'miniplayer', 'miniplayer.html'));
     // Create the browser window.
     const info = {
         width: 800,
@@ -145,21 +149,39 @@ const createWindow = () => {
     });
     mainWindow.addListener('blur', () => {
         mainWindow.webContents.send('focused', false);
+        if (!dialogOpen) {
+            miniplayer.show();
+        }
+    });
+    mainWindow.addListener('minimize', () => {
+        if (!dialogOpen) {
+            miniplayer.show();
+        }
+    });
+    mainWindow.addListener('restore', () => {
+        miniplayer.hide();
     });
     mainWindow.addListener('focus', () => {
         mainWindow.webContents.send('focused', true);
+        miniplayer.hide();
     });
     mainWindow.addListener('close', () => {
         mainWindow.hide();
     });
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, 'index.html'));
+    mainWindow.addListener('closed', () => {
+        if (process.platform !== 'darwin') {
+            miniplayer.destroy();
+            app.quit();
+        }
+    });
 };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', () => Menu.setApplicationMenu(Menu.buildFromTemplate(appleMenu)));
+//app.on('ready', () => Menu.setApplicationMenu(Menu.buildFromTemplate(appleMenu)));
 app.on('ready', createWindow);
 app.on('ready', () => {
     if (!macOsOpen) {
@@ -207,15 +229,6 @@ app.on('open-file', (e, a) => {
     }
 });
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit();
-    }
-});
-
 app.on('activate', () => {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
@@ -252,6 +265,8 @@ ipcMain.on('windowMsg', (_, arg) => {
 });
 ipcMain.on('init-completed', () => {
     loading.destroy();
+    mainWindow.webContents.send('miniplayer', miniplayer.id);
+    miniplayer.webContents.send('mainId', mainWindow.id);
     mainWindow.show();
     mainWindow.focus();
     openQueue.forEach(element => {
@@ -280,6 +295,7 @@ ipcMain.on('init-completed', () => {
     }
 });
 ipcMain.on('fileLoad', (event) => {
+    dialogOpen = true;
     dialog.showOpenDialog({
         filters: [{
             name: 'Musik',
@@ -290,9 +306,11 @@ ipcMain.on('fileLoad', (event) => {
         properties: ['openFile', 'multiSelections']
     }).then((file) => {
         event.returnValue = file.filePaths;
+        dialogOpen = false;
     });
 });
-ipcMain.on('playlist-save', (e, a) => {
+ipcMain.on('playlist-save', (_, a) => {
+    dialogOpen = true;
     dialog.showSaveDialog({
         filters: [{
             name: 'Musicman Playlist',
@@ -302,9 +320,11 @@ ipcMain.on('playlist-save', (e, a) => {
         if (!file.canceled) {
             fs.writeFileSync(file.filePath, a, 'utf8');
         }
+        dialogOpen = false;
     });
 });
 ipcMain.on('playlist-load', () => {
+    dialogOpen = true;
     dialog.showOpenDialog({
         filters: [{
             name: 'Musicman Playlist',
@@ -314,5 +334,6 @@ ipcMain.on('playlist-load', () => {
         if (!file.canceled) {
             mainWindow.webContents.send('playlist-open-request', fs.readFileSync(file.filePaths[0], 'utf8'));
         }
+        dialogOpen = false;
     });
 });

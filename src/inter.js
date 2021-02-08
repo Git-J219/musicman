@@ -1,8 +1,5 @@
-/* global windowControl:false, file:false, mos:false, init:false */
+/* global windowControl:false, file:false, mos:false, init:false miniplayer:false */
 mos.mos();
-if (document.body.classList.contains('mos')) {
-    document.querySelector('#title').insertBefore(document.querySelector('#load'));
-}
 [...document.querySelectorAll('.dropdown a')].forEach((mentos) => {
     mentos.addEventListener('click', function() {
         const drops = [...document.querySelectorAll('.dropdown-content')];
@@ -64,6 +61,7 @@ function loadTitles() {
                     document.querySelector('#imgP').style.display = '';
                     document.querySelector('title').innerText = 'Musicman';
                     document.querySelector('#title').innerText = 'Musicman';
+                    miniplayer.clear();
                     break;
                 }
                 loadTitles();
@@ -83,6 +81,7 @@ const loadCurrent = function() {
     file.getTitle().then((meta) => {
         document.querySelector('title').innerText = `${(meta.common.title ? meta.common.title : file.loadFallBackTitle())} - Musicman`;
         document.querySelector('#title').innerText = `${(meta.common.title ? meta.common.title : file.loadFallBackTitle())} - Musicman`;
+        miniplayer.title(meta.common.title ? meta.common.title : file.loadFallBackTitle());
         const fcheck = () => {
             const fpp = file.getPicPath();
             if (fpp) {
@@ -310,9 +309,11 @@ document.querySelector('#resetSpeed').addEventListener('click', () => {
 document.querySelector('audio').addEventListener('timeupdate', () => {
     document.querySelector('#pos').value = document.querySelector('audio').currentTime;
     document.querySelector('#playedAll').innerText = new Date(Math.round(document.querySelector('audio').currentTime) * 1000).toISOString().substr(11, 8);
+    miniplayer.time(document.querySelector('audio').currentTime);
 });
 document.querySelector('audio').addEventListener('loadedmetadata', () => {
     document.querySelector('#pos').max = Math.round(document.querySelector('audio').duration);
+    miniplayer.length(Math.round(document.querySelector('audio').duration));
 });
 
 document.querySelector('#play').addEventListener('click', () => {
@@ -328,6 +329,12 @@ document.querySelector('#play').addEventListener('click', () => {
 });
 document.querySelector('#pos').addEventListener('mousedown', () => {
     document.querySelector('audio').playbackRate = 0;
+});
+document.querySelector('audio').addEventListener('play', () => {
+    miniplayer.play(true);
+});
+document.querySelector('audio').addEventListener('pause', () => {
+    miniplayer.play(false);
 });
 document.querySelector('#pos').addEventListener('mouseup', () => {
     document.querySelector('audio').currentTime = document.querySelector('#pos').value;
