@@ -171,6 +171,28 @@ ipcRenderer.on('focused', (e, a) => {
     a ? document.body.classList.remove('winactive') : document.body.classList.add('winactive');
 });
 
+ipcRenderer.on('move', (_, a) => {
+    if (playlist.length === 0) {
+        return;
+    }
+    switch (a) {
+    case 0: //next
+        playlistI++;
+        if (playlistI >= playlist.length) {
+            playlistI = 0;
+        }
+        break;
+    case 1: //last
+        playlistI--;
+        if (playlistI < 0) {
+            playlistI = playlist.length - 1;
+        }
+        break;
+    }
+    document.querySelector('#lcfp').click();
+    document.querySelector('#ltfp').click();
+});
+
 ipcRenderer.on('miniplayerclick', () => {
     document.querySelector('#play').click();
 });

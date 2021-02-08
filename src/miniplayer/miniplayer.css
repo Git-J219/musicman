@@ -24,3 +24,17 @@ button {
     transition-duration: 1s;
     transition-timing-function: linear;
 }
+
+#buttons {
+    width: calc(100% - 20px);
+    display: flex;
+    justify-content: space-around;
+}
+
+#lastIco {
+    transform: rotate(180deg);
+}
+
+#next:hover, #last:hover {
+    background-color: rgba(79, 84, 92);
+}

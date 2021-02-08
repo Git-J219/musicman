@@ -35,3 +35,12 @@ ipcRenderer.on('clear', () => {
 contextBridge.exposeInMainWorld('play', {
     play: () => ipcRenderer.sendTo(mainId, 'miniplayerclick')
 });
+
+contextBridge.exposeInMainWorld('move', {
+    next: () => {
+        ipcRenderer.sendTo(mainId, 'move', 0);
+    },
+    last: () => {
+        ipcRenderer.sendTo(mainId, 'move', 1);
+    }
+});
