@@ -30,7 +30,7 @@
     "dependencies": {
         "electron-log": "^4.3.1",
         "electron-squirrel-startup": "^1.0.0",
-        "music-metadata": "^7.6.7"
+        "music-metadata": "^7.6.8"
     },
     "devDependencies": {
         "@electron-forge/cli": "^6.0.0-beta.54",
