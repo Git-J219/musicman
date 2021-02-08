@@ -41,6 +41,7 @@ const appleMenu = [{
         label: 'Beenden',
         accelerator: 'Command+Q',
         click: () => {
+            miniplayer.destroy();
             app.quit();
         }
     }]
