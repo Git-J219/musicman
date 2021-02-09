@@ -32,6 +32,10 @@
         ],
         "no-implied-eval": "error",
         "no-eval": "error",
-        "yoda": "error"
+        "yoda": "error",
+        "no-loss-of-precision": "warn",
+        "no-template-curly-in-string": "error",
+        "no-unreachable-loop": "error",
+        "default-case-last": "error"
     }
 }
