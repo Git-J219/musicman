@@ -24,7 +24,7 @@ jobs:
         shell: powershell
         run: |
           ls
-          npm i
+          npm ci
           npx electron-forge package --arch=x64 --platform=win32
           npx electron-forge package --arch=arm64 --platform=win32
           npx electron-forge package --arch=ia32 --platform=win32
@@ -59,7 +59,7 @@ jobs:
         shell: bash
         run: |
           ls
-          npm i
+          npm ci
           npx electron-forge package --arch=x64 --platform=linux
           npx electron-forge package --arch=arm64 --platform=linux
           npx electron-forge package --arch=armv7l --platform=linux
@@ -94,7 +94,7 @@ jobs:
         shell: bash
         run: |
           ls
-          npm i
+          npm ci
           npx electron-forge package --arch=x64 --platform=darwin
           npx electron-forge package --arch=arm64 --platform=darwin
           cp 3rdParty out/musicman-darwin-x64 -r
