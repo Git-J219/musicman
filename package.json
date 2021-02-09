@@ -19,12 +19,7 @@
                     "createRelease.ps1"
                 ],
                 "appCopyright": "Copyright (c) 2021 Git-J219, All rights reserved"
-            },
-            "makers": [
-                {
-                    "name": "@electron-forge/maker-zip"
-                }
-            ]
+            }
         }
     },
     "dependencies": {
@@ -34,8 +29,6 @@
     },
     "devDependencies": {
         "@electron-forge/cli": "^6.0.0-beta.54",
-        "@electron-forge/maker-zip": "^6.0.0-beta.54",
-        "@electron-forge/publisher-github": "^6.0.0-beta.54",
         "electron": "11.2.3",
         "eslint": "^7.19.0"
     }
