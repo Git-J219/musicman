@@ -47,7 +47,7 @@ function loadTitles() {
         };
         playlist.addEventListener('click', oCl);
         playlist.addEventListener('contextmenu', (e) => {
-            if (e.target.nodeName === 'DIV') {
+            if (e.target.id !== 'playlist') {
                 switch (file.remPl(e.target.getAttribute('data-pos'))) {
                 case 0:
                     loadCurrent();

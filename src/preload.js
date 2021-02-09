@@ -45,7 +45,7 @@ contextBridge.exposeInMainWorld('file', {
         playlist.splice(i, 1);
         if (playlistI > i) {
             playlistI--;
-        } else if (playlistI === i) {
+        } else if (playlistI == i) { // eslint-disable-line
             if (playlist.length === playlistI) {
                 playlistI = 0;
             }
