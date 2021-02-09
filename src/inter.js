@@ -1,4 +1,5 @@
 /* global windowControl:false, file:false, mos:false, init:false miniplayer:false */
+'use strict';
 mos.mos();
 [...document.querySelectorAll('.dropdown a')].forEach((mentos) => {
     mentos.addEventListener('click', function() {

@@ -1,3 +1,4 @@
+'use strict';
 const { ipcRenderer, contextBridge } = require('electron');
 
 let mainId;

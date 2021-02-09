@@ -1,3 +1,4 @@
+'use strict';
 let mainWindow;
 let loading;
 let miniplayer;
