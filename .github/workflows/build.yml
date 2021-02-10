@@ -49,7 +49,7 @@ jobs:
           name: win32-ia32
           path: out/musicman-win32-ia32.zip
   build-linux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2.3.4
       - uses: actions/setup-node@v2.1.4
@@ -84,7 +84,7 @@ jobs:
           name: linux-armv7l
           path: out/musicman-linux-armv7l.zip
   build-macos:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2.3.4
       - uses: actions/setup-node@v2.1.4
