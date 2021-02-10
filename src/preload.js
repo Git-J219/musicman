@@ -47,7 +47,7 @@ contextBridge.exposeInMainWorld('file', {
         playlist.splice(i, 1);
         if (playlistI > i) {
             playlistI--;
-        } else if (playlistI === parseInt(i)) {
+        } else if (parseInt(playlistI) === parseInt(i)) {
             if (playlist.length === playlistI) {
                 playlistI = 0;
             }

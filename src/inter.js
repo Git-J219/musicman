@@ -65,7 +65,7 @@ function loadTitles() {
             const item = document.createElement('div');
             item.setAttribute('data-pos', i);
             item.innerText = title;
-            if (info[1] === parseInt(i)) {
+            if (parseInt(info[1]) === parseInt(i)) {
                 item.style.backgroundColor = '#777';
             }
             playlist.appendChild(item);
