@@ -1,6 +1,38 @@
-/* global windowControl:false, file:false, mos:false, init:false miniplayer:false */
+/* global windowControl:false, file:false, mos:false, init:false miniplayer:false version:false */
 'use strict';
 mos.mos();
+if (localStorage.getItem('lastDate') !== `${new Date().getDate()}.${new Date().getMonth()}.${new Date().getFullYear()}`) {
+    fetch('https://api.github.com/repos/Git-J219/musicman/tags')
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            if (data.message) {
+                return;
+            }
+            const mmVersion = `v${version.getVersion()}`;
+            if (data[0].name !== mmVersion && data[0].name !== localStorage.getItem('disabledVersion')) {
+                // New Version showable: data[0].name
+                localStorage.setItem('lastDate', `${new Date().getDate()}.${new Date().getMonth()}.${new Date().getFullYear()}`);
+                localStorage.setItem('lastVersion', data[0].name);
+                showVersion(data[0].name);
+            }
+        })
+        .catch(function (err) {
+            console.log('error while loading updates: ', err);
+        });
+} else {
+    const mmVersion = `v${version.getVersion()}`;
+    if (localStorage.getItem('lastVersion') !== mmVersion && localStorage.getItem('lastVersion') !== localStorage.getItem('disabledVersion')) {
+        showVersion(localStorage.getItem('lastVersion'));
+    }
+}
+function showVersion(newVersion) {
+    newVersion = newVersion.slice(1);
+    document.querySelector('#newVer').innerText = newVersion;
+    document.querySelector('#update').style.display = '';
+}
+
 [...document.querySelectorAll('.dropdown a')].forEach((mentos) => {
     mentos.addEventListener('click', function() {
         const drops = [...document.querySelectorAll('.dropdown-content')];
@@ -375,6 +407,32 @@ window.onclick = function(e) {
         modalCom.style.display = 'none';
     }
 };
+
+const modalBtnUpdate = document.querySelector('#update');
+const modalUpdate = document.querySelector('.modal_update');
+const closeBtnUpdate = document.querySelector('.close-btn_update');
+modalBtnUpdate.onclick = function() {
+    modalUpdate.style.display = 'block';
+};
+closeBtnUpdate.onclick = function() {
+    modalUpdate.style.display = 'none';
+};
+window.onclick = function(e) {
+    if (e.target === modalUpdate) {
+        modalUpdate.style.display = 'none';
+    }
+};
+
+document.querySelector('#updateOpen').addEventListener('click', version.openPage);
+document.querySelector('#updateClose').addEventListener('click', () => {
+    modalUpdate.style.display = 'none';
+    document.querySelector('#update').style.display = 'none';
+});
+document.querySelector('#updateDisable').addEventListener('click', () => {
+    modalUpdate.style.display = 'none';
+    document.querySelector('#update').style.display = 'none';
+    localStorage.setItem('disabledVersion', `v${document.querySelector('#newVer').innerText}`);
+});
 
 document.querySelector('#app_max').addEventListener('click', windowControl.maximize);
 document.querySelector('#app_min').addEventListener('click', windowControl.minimize);
