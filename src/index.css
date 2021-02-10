@@ -403,3 +403,7 @@ table {
 #updateControl span {
     padding: 5px;
 }
+
+#updateControl span:hover {
+    background-color: rgba(79, 84, 92);
+}
