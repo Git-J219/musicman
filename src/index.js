@@ -10,7 +10,12 @@ const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const log = require('electron-log');
+
+const mmVersion = require('../package.json').version;
+
 log.catchErrors();
+
+console.log(`Running at v${mmVersion}`);
 
 const appleMenu = [{
     label: 'Musicman',
@@ -341,4 +346,7 @@ ipcMain.on('playlist-load', () => {
         }
         dialogOpen = false;
     });
+});
+ipcMain.on('get-version', (e) => {
+    e.returnValue = mmVersion;
 });

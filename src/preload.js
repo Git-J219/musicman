@@ -3,11 +3,12 @@ const fs = require('fs');
 const os = require('os');
 const url = require('url');
 
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer, shell } = require('electron');
 
 const mm = require('music-metadata');
 const path = require('path');
 const log = require('electron-log');
+
 
 let playlist = [];
 let playlistI = 0;
@@ -213,5 +214,14 @@ contextBridge.exposeInMainWorld('miniplayer', {
     },
     clear: () => {
         ipcRenderer.sendTo(miniplayerId, 'clear');
+    }
+});
+
+contextBridge.exposeInMainWorld('version', {
+    getVersion: () => {
+        return ipcRenderer.sendSync('get-version');
+    },
+    openPage: () => {
+        shell.openExternal('https://github.com/Git-J219/musicman/releases');
     }
 });
