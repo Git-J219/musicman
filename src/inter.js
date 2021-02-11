@@ -399,8 +399,10 @@ document.querySelector('#modal-btn_com').addEventListener('click', () => {
 document.querySelector('.close-btn_com').addEventListener('click', () => {
     document.querySelector('.modal_com').style.display = 'none';
 });
-document.querySelector('.modal_com').addEventListener('click', () => {
-    document.querySelector('.modal_com').style.display = 'none';
+document.querySelector('.modal_com').addEventListener('click', (e) => {
+    if (e.target === document.querySelector('.modal_com')) {
+        document.querySelector('.modal_com').style.display = 'none';
+    }
 });
 
 document.querySelector('#update').addEventListener('click', () => {
@@ -409,8 +411,10 @@ document.querySelector('#update').addEventListener('click', () => {
 document.querySelector('.close-btn_update').addEventListener('click', () => {
     document.querySelector('.modal_update').style.display = 'none';
 });
-document.querySelector('.modal_update').addEventListener('click', () => {
-    document.querySelector('.modal_update').style.display = 'none';
+document.querySelector('.modal_update').addEventListener('click', (e) => {
+    if (e.target === document.querySelector('.modal_update')) {
+        document.querySelector('.modal_update').style.display = 'none';
+    }
 });
 
 document.querySelector('#updateOpen').addEventListener('click', version.openPage);
