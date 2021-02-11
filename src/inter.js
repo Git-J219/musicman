@@ -393,43 +393,33 @@ document.querySelector('#reset').addEventListener('click', () => {
 });
 updateValuesAll();
 
-const modalBtnCom = document.querySelector('#modal-btn_com');
-const modalCom = document.querySelector('.modal_com');
-const closeBtnCom = document.querySelector('.close-btn_com');
-modalBtnCom.onclick = function() {
-    modalCom.style.display = 'block';
-};
-closeBtnCom.onclick = function() {
-    modalCom.style.display = 'none';
-};
-window.onclick = function(e) {
-    if (e.target === modalCom) {
-        modalCom.style.display = 'none';
-    }
-};
+document.querySelector('#modal-btn_com').addEventListener('click', () => {
+    document.querySelector('.modal_com').style.display = 'block';
+});
+document.querySelector('.close-btn_com').addEventListener('click', () => {
+    document.querySelector('.modal_com').style.display = 'none';
+});
+document.querySelector('.modal_com').addEventListener('click', () => {
+    document.querySelector('.modal_com').style.display = 'none';
+});
 
-const modalBtnUpdate = document.querySelector('#update');
-const modalUpdate = document.querySelector('.modal_update');
-const closeBtnUpdate = document.querySelector('.close-btn_update');
-modalBtnUpdate.onclick = function() {
-    modalUpdate.style.display = 'block';
-};
-closeBtnUpdate.onclick = function() {
-    modalUpdate.style.display = 'none';
-};
-window.onclick = function(e) {
-    if (e.target === modalUpdate) {
-        modalUpdate.style.display = 'none';
-    }
-};
+document.querySelector('#update').addEventListener('click', () => {
+    document.querySelector('.modal_update').style.display = 'block';
+});
+document.querySelector('.close-btn_update').addEventListener('click', () => {
+    document.querySelector('.modal_update').style.display = 'none';
+});
+document.querySelector('.modal_update').addEventListener('click', () => {
+    document.querySelector('.modal_update').style.display = 'none';
+});
 
 document.querySelector('#updateOpen').addEventListener('click', version.openPage);
 document.querySelector('#updateClose').addEventListener('click', () => {
-    modalUpdate.style.display = 'none';
+    document.querySelector('.modal_update').style.display = 'none';
     document.querySelector('#update').style.display = 'none';
 });
 document.querySelector('#updateDisable').addEventListener('click', () => {
-    modalUpdate.style.display = 'none';
+    document.querySelector('.modal_update').style.display = 'none';
     document.querySelector('#update').style.display = 'none';
     localStorage.setItem('disabledVersion', `v${document.querySelector('#newVer').innerText}`);
 });
