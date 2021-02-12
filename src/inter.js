@@ -219,8 +219,8 @@ const audPan = new StereoPannerNode(audCon); // StereoPannerNode
 const audVol = new GainNode(audCon); // GainNode
 function updateValuesAll() {
     audPan.pan.value = document.querySelector('#pan').value;
-    document.querySelector('#pan').value === 0 ? document.querySelector('#panTrue').style.display = 'none' : document.querySelector('#panTrue').style.display = '';
-    document.querySelector('#pan').value !== 0 ? document.querySelector('#panFalse').style.display = 'none' : document.querySelector('#panFalse').style.display = '';
+    parseFloat(document.querySelector('#pan').value) === 0 ? document.querySelector('#panTrue').style.display = 'none' : document.querySelector('#panTrue').style.display = '';
+    parseFloat(document.querySelector('#pan').value) !== 0 ? document.querySelector('#panFalse').style.display = 'none' : document.querySelector('#panFalse').style.display = '';
     document.querySelector('#panAmount').innerText = Math.round(Math.abs(audPan.pan.value) * 100.0);
     document.querySelector('#panDir').innerText = audPan.pan.value < 0 ? 'links' : 'rechts';
 
@@ -294,8 +294,8 @@ document.querySelector('#release').addEventListener('input', () => {
 });
 document.querySelector('#pan').addEventListener('input', () => {
     audPan.pan.value = document.querySelector('#pan').value;
-    document.querySelector('#pan').value === 0 ? document.querySelector('#panTrue').style.display = 'none' : document.querySelector('#panTrue').style.display = '';
-    document.querySelector('#pan').value !== 0 ? document.querySelector('#panFalse').style.display = 'none' : document.querySelector('#panFalse').style.display = '';
+    parseFloat(document.querySelector('#pan').value) === 0 ? document.querySelector('#panTrue').style.display = 'none' : document.querySelector('#panTrue').style.display = '';
+    parseFloat(document.querySelector('#pan').value) !== 0 ? document.querySelector('#panFalse').style.display = 'none' : document.querySelector('#panFalse').style.display = '';
     document.querySelector('#panAmount').innerText = Math.round(Math.abs(audPan.pan.value) * 100.0);
     document.querySelector('#panDir').innerText = audPan.pan.value < 0 ? 'links' : 'rechts';
 });
