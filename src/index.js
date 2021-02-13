@@ -48,6 +48,7 @@ const appleMenu = [{
         accelerator: 'Command+Q',
         click: () => {
             miniplayer.destroy();
+            mainWindow.destroy();
             app.quit();
         }
     }]
@@ -181,8 +182,8 @@ const createWindow = () => {
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, 'index.html'));
     mainWindow.addListener('closed', () => {
+        miniplayer.destroy();
         if (process.platform !== 'darwin') {
-            miniplayer.destroy();
             app.quit();
         }
     });
