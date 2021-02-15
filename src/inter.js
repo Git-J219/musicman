@@ -71,7 +71,7 @@ function loadTitles() {
             playlist.appendChild(item);
         }
         const oCl = (e) => {
-            if (e.target.nodeName === 'DIV') {
+            if (e.target.id !== 'playlist') {
                 file.loadNum(e.target.getAttribute('data-pos'));
 
                 loadCurrent();
