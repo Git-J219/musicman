@@ -30,6 +30,6 @@
     "devDependencies": {
         "@electron-forge/cli": "^6.0.0-beta.54",
         "electron": "11.2.3",
-        "eslint": "^7.19.0"
+        "eslint": "^7.20.0"
     }
 }
