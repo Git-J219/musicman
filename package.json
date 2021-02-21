@@ -1,7 +1,7 @@
 {
     "name": "musicman",
     "productName": "musicman",
-    "version": "2.3.2",
+    "version": "2.3.3",
     "description": "My Electron application description",
     "main": "src/index.js",
     "scripts": {
