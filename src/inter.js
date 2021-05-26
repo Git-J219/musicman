@@ -33,22 +33,23 @@ function showVersion(newVersion) {
     document.querySelector('#update').style.display = '';
 }
 
-[...document.querySelectorAll('.dropdown a')].forEach((mentos) => {
-    mentos.addEventListener('click', function() {
+[...document.querySelectorAll('.dropdown a')].forEach((dropdownClose) => {
+    dropdownClose.addEventListener('click', function() {
         const drops = [...document.querySelectorAll('.dropdown-content')];
-        drops.forEach(mentos2 => {
-            mentos2.style.display = 'none';
+        drops.forEach(drop => {
+            drop.style.display = 'none';
             setTimeout(() => {
-                mentos2.style.display = '';
+                drop.style.display = '';
             }, 5);
         });
     });
 });
 let titleScroll = 0;
 let loopState = 0;
-document.querySelector('#loopingState').addEventListener('click', () => {
+document.querySelector('#loopingState').addEventListener('click', (e) => {
     loopState++;
-    if (loopState === 3) {
+    if(loopState === 3 && !e.shiftKey) loopState++;
+    if (loopState === 6) {
         loopState = 0;
     }
     updateValuesAll();
@@ -170,7 +171,7 @@ document.querySelector('#menuOpenInstant').addEventListener('click', () => {
 document.querySelector('#playlistExport').addEventListener('click', file.exportPl);
 document.querySelector('#playlistImport').addEventListener('click', file.importPl);
 document.querySelector('audio').addEventListener('ended', () => {
-    if (file.continue() || loopState === 2) {
+    if (file.continue(loopState)) {
         loadCurrent();
         loadTitles();
     }
@@ -247,7 +248,7 @@ function updateValuesAll() {
         updateValuesAll();
     });
 
-    document.querySelector('#loopingState').innerText = loopState === 0 ? 'Keine Wiederholung' : loopState === 1 ? 'Lied wiederholen' : 'Alles wiederholen';
+    document.querySelector('#loopingState').innerText = loopState === 0 ? 'Keine Wiederholung' : loopState === 1 ? 'Lied wiederholen' : loopState === 2 ? 'Alles wiederholen' : loopState === 3 ? 'Zufall (einfach)' : loopState === 4 ? 'Zufall' : 'Zufall (wiederholen)';
 
     audSrc.disconnect();
     audCom.disconnect();

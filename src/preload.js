@@ -34,6 +34,7 @@ ipcRenderer.on('windowMaximize', (event, arg) => {
     }
 });
 // File //
+let goodRndLst = [];
 const fname = 'mm_musicman_coverart_temp';
 contextBridge.exposeInMainWorld('file', {
     exportPl: () => {
@@ -56,6 +57,12 @@ contextBridge.exposeInMainWorld('file', {
         if (playlist.length === 0) {
             info = 1;
         }
+        goodRndLst = goodRndLst.map((val) => {
+            if(val === i) return -1;
+            if(val > i) return val - 1;
+        }).filter((val) => {
+            return val !== -1;
+        });
         return info;
     },
     savePath: () => {
@@ -74,6 +81,7 @@ contextBridge.exposeInMainWorld('file', {
     },
     loadNum: (num) => {
         playlistI = num;
+        goodRndLst = [];
     },
     getPath: () => {
         if (playlist[playlistI]) {
@@ -102,11 +110,33 @@ contextBridge.exposeInMainWorld('file', {
     loadFallBackTitle: () => {
         return path.parse(playlist[playlistI]).name;
     },
-    continue: () => {
+    continue: (loopState) => {
+        if(loopState === 3){
+            playlistI = Math.floor(Math.random() * (playlist.length));
+            goodRndLst = [];
+            return true;
+        }
+        if(loopState === 4 || loopState === 5){
+            goodRndLst.unshift(playlistI);
+            if(playlist.length === goodRndLst.length){
+                if(loopState === 4) {goodRndLst = [];playlistI = 0;return false;}
+                if(loopState === 5) goodRndLst = [];
+            }
+            let newI = 0;
+            let r_ = 0;
+            do{
+                r_+=1;
+                newI = Math.floor(Math.random() * (playlist.length));
+                console.log(playlist, goodRndLst);
+            } while(goodRndLst.includes(newI) && r_<1000);
+            playlistI = newI;
+            return r_<1000;
+        }
         playlistI++;
+        goodRndLst = [];
         if (playlist.length === playlistI) {
             playlistI = 0;
-            return false;
+            return loopState === 2;
         } else {
             return true;
         }
@@ -138,6 +168,7 @@ ipcRenderer.on('file-open-request', (_e, arg) => {
 ipcRenderer.on('playlist-open-request', (e, a) => {
     playlist = JSON.parse(a);
     playlistI = 0;
+    goodRndLst = [];
     document.querySelector('#lcfp').click();
 
     document.querySelector('#ltfp').click();
