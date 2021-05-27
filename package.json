@@ -40,7 +40,6 @@
     "devDependencies": {
         "@electron-forge/cli": "^6.0.0-beta.57",
         "electron": "13.0.1",
-        "eslint": "^7.27.0",
-        "fs-extra": "^9.1.0"
+        "eslint": "^7.27.0"
     }
 }
