@@ -117,7 +117,7 @@ contextBridge.exposeInMainWorld('file', {
             return true;
         }
         if(loopState === 4 || loopState === 5){
-            goodRndLst.unshift(playlistI);
+            goodRndLst.unshift(parseInt(playlistI));
             if(playlist.length === goodRndLst.length){
                 if(loopState === 4) {goodRndLst = [];playlistI = 0;return false;}
                 if(loopState === 5) goodRndLst = [];
@@ -128,7 +128,7 @@ contextBridge.exposeInMainWorld('file', {
                 r_+=1;
                 newI = Math.floor(Math.random() * (playlist.length));
                 console.log(playlist, goodRndLst);
-            } while(goodRndLst.includes(newI) && r_<1000);
+            } while(goodRndLst.includes(parseInt(newI)) && r_<1000);
             playlistI = newI;
             return r_<1000;
         }
