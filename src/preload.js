@@ -117,20 +117,17 @@ contextBridge.exposeInMainWorld('file', {
             return true;
         }
         if(loopState === 4 || loopState === 5){
-            goodRndLst.unshift(parseInt(playlistI));
-            if(playlist.length === goodRndLst.length){
+            if(playlist.length-1 === goodRndLst.length){
                 if(loopState === 4) {goodRndLst = [];playlistI = 0;return false;}
                 if(loopState === 5) goodRndLst = [];
             }
-            let newI = 0;
-            let r_ = 0;
-            do{
-                r_+=1;
-                newI = Math.floor(Math.random() * (playlist.length));
-                console.log(playlist, goodRndLst);
-            } while(goodRndLst.includes(parseInt(newI)) && r_<1000);
+            goodRndLst.push(parseInt(playlistI));
+            let newI = Math.floor(Math.random() * (playlist.length-goodRndLst.length));
+            goodRndLst.sort((a, b) => a-b).forEach((v) => {
+                    if(v <= newI) newI++;
+            });
             playlistI = newI;
-            return r_<1000;
+            return true;
         }
         playlistI++;
         goodRndLst = [];
@@ -222,6 +219,7 @@ ipcRenderer.on('move', (_, a) => {
         }
         break;
     }
+    goodRndLst = [];
     document.querySelector('#lcfp').click();
     document.querySelector('#ltfp').click();
 });
