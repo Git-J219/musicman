@@ -57,12 +57,7 @@ contextBridge.exposeInMainWorld('file', {
         if (playlist.length === 0) {
             info = 1;
         }
-        goodRndLst = goodRndLst.map((val) => {
-            if(val === i) return -1;
-            if(val > i) return val - 1;
-        }).filter((val) => {
-            return val !== -1;
-        });
+        goodRndLst = [];
         return info;
     },
     savePath: () => {
@@ -116,7 +111,7 @@ contextBridge.exposeInMainWorld('file', {
             goodRndLst = [];
             return true;
         }
-        if(loopState === 4 || loopState === 5){
+        if((loopState === 4 || loopState === 5) && playlist.length !== 1){
             if(playlist.length-1 === goodRndLst.length){
                 if(loopState === 4) {goodRndLst = [];playlistI = 0;return false;}
                 if(loopState === 5) goodRndLst = [];
