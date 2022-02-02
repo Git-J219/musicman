@@ -13,8 +13,9 @@ const log = require('electron-log');
 
 const mmVersion = require('../package.json').version;
 
-log.catchErrors();
+delete require('electron').nativeImage.createThumbnailFromPath; // eslint-disable-line
 
+log.catchErrors();
 console.log(`Running at v${mmVersion}`);
 
 const appleMenu = [{
