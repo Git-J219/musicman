@@ -119,7 +119,7 @@ contextBridge.exposeInMainWorld('file', {
             goodRndLst.push(parseInt(playlistI));
             let newI = Math.floor(Math.random() * (playlist.length-goodRndLst.length));
             goodRndLst.sort((a, b) => a-b).forEach((v) => {
-                    if(v <= newI) newI++;
+                if(v <= newI) newI++;
             });
             playlistI = newI;
             return true;
@@ -128,7 +128,7 @@ contextBridge.exposeInMainWorld('file', {
         goodRndLst = [];
         if (playlist.length === playlistI) {
             playlistI = 0;
-            return loopState === 2;
+            return loopState === 2 || loopState === 5;
         } else {
             return true;
         }
